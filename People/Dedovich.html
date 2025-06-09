@@ -1,0 +1,171 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Дедович Валентин Миколайович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Дедович Валентин Миколайович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Dedovich.webp";
+            document.getElementById("person-name").textContent = "Дедович Валентин Миколайович";
+            document.getElementById("person-years").textContent = "1990";
+            document.getElementById("person-description").textContent = "Кандидат педагогічних наук, доцент.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>З 1990 року працює в Чернігівському державному педагогічному інституті імені Т. Г. Шевченка (нині — Національний університет «Чернігівський колегіум» імені Т. Г. Шевченка) на фізико-математичному факультеті.</p>
+            <p>У 1990 році закінчила Чернігівський державний педагогічний інститут імені Т. Г. Шевченка за спеціальністю «Фізика й астрономія», здобула кваліфікацію вчителя фізики й астрономії.</p>
+            <p>У 1997 році захистила дисертацію на здобуття наукового ступеня кандидата педагогічних наук на тему: «Форми інтеграції природничонаукових знань старшокласників». З 2000 року — доцент кафедри.</p>
+            <p>Викладає навчальні дисципліни: педагогіка та історія педагогіки, педагогіка вищої школи, спецкурс з психолого-педагогічних дисциплін, пропедевтична практика з педагогіки, педагогічна практика.</p>
+            <p>Наукові інтереси пов’язані з методикою викладання фізики в закладах загальної середньої освіти.</p>
+            <p>Є автором понад 40 наукових праць, опублікованих у фахових виданнях України.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Інтеграція знань про природу у старшокласників. 1992",
+                "Підготовка студентів до викладання інтегративних дисциплін у середній школі. 1992",
+                "Приклади навчальних задач як засобу інтеграції природничих дисциплін. 1993",
+                "Інтеграція фізики, хімії, біології в 10-11 класах. 1994",
+                "До диференціації через інтеграцію. 1995",
+                "Інтеграція знань про природу. Як це можна зробити вже сьогодні. 1995",
+                "Інтеграція знань як засіб розвитку учнів. 1996",
+                "Форми інтеграції природничонаукових знань старшокласників. 1997",
+                "Активізація пізнавальної діяльності учнів при розв'язуванні фізичних задач. 1998",
+                "Дух нової школи. 1998",
+                "Завдання освіти–навчити відпочивати. 1998",
+                "Методичні рекомендації для вступників до ліцею (фізико-математичний профіль). 1999",
+                "Вчитель і народна педагогіка. 2003",
+                "Воз'єднання України з Росією–катастрофа для української освіти. 2003",
+                "Новое содержание образования в школе. 2004",
+                "Техніко-технологічний матеріал при вивченні фізики на профілях гуманітарного спрямування. 2004",
+                "Викладання історії педагогіки за кредитно-модульною технологією. 2006",
+                "Комунікативні технології та інтеграція в процесі навчання фізики учнів у класах природничого профілю. 2006",
+                "Про внутрішню логіку викладу навчального матеріалу в підручниках. 2006",
+                "ТЕМПЕРАТУРА І ТЕРМОМЕТР В ШКІЛЬНИХ ПІДРУЧНИКАХ ФІЗИКИ ПОЧАТКУ ХХ СТОЛІТТЯ. 2009",
+                "Еволюція змісту основ гідро-та аеростатики в підручниках фізики ХХ століття. 2010",
+                "Моделювання при розв'язанні задач у практиці підготовки майбутніх вчителів фізики. 2010",
+                "Еволюція вивчення простих механізмів у підручниках фізики ХХ століття. 2011",
+                "Систематизація знань учнів про електромагнітне поле. 2011",
+                "Військова тематика у шкільному курсі фізики. 2013",
+                "Інтерв'ю з людиною, яка вивчала Марс. 2014",
+                "Новий зміст фізики на рівні стандарту. 2015",
+                "Метод проектів у шкільному курсі фізики. 2016",
+                "Організація процесу научіння майбутніх учителів фізики з врахуванням навчально-інтелектуальних і соціальних механізмів. 2016",
+                "Формування-навчально-пізнавальної компетентності в учнів при вивченні розділу «Атомна та ядерна фізика». 2016",
+                "Розвиток навчально-пізнавальної компетентності в учнів. 2019",
+                "Формування інформаційної компетентності при виконанні проектів. 2019"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["ЗАБУТІ ІДЕЇ В НОВІ ПІДРУЧНИКИ",
+                "Методологічні аспекти науково-дослідної роботи аспірантів біологічних спеціальностей. 2024",
+                "МУТАГЕННИЙ ВПЛИВ НАНОЧАСТИНОК НІКЕЛЮ, СИЛІЦІЮ, ТИТАНУ НА ОНТОГЕНЕЗ DROSOPHILA MELANOGASTER. 2024"
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "chnpu.edu.ua.Кафедра фізики та астрономії. ", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-fiziki-ta-astronomiji" },
+                { text: "Google Академія. Валентин Дедович.", url: "http://scholar.google.com/citations?user=BtMP_vEAAAAJ&hl=uk" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

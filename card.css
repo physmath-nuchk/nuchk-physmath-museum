@@ -1,0 +1,228 @@
+#ucl-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0 50px;
+}
+
+.ucl-card {
+  width: 300px;
+  height: 480px;
+  background-color: #d7c4a3;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ucl-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ucl-card-link,
+.ucl-card-link * {
+  text-decoration: none;
+}
+
+.ucl-image-container img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: block;
+}
+
+.ucl-date-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  gap: 10px;
+}
+
+.ucl-year-left,
+.ucl-year-right {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.ucl-date-bar .ucl-dash {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #000;
+  opacity: 0.4;
+  margin: 0 5px;
+  transform: translateY(-1px);
+}
+
+.ucl-date-bar .ucl-year {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  font-size: 10px;
+  font-weight: normal;
+  color: #555;
+}
+
+.ucl-info {
+  text-align: center;
+  padding: 10px 15px 0;
+}
+
+.ucl-info-title {
+  font-size: 27px;
+  margin: 0;
+  padding: 4%;
+  font-weight: bold;
+  color: #000;
+}
+
+.ucl-divider {
+  border: none;
+
+}
+
+.ucl-description-container {
+  height: 80px;
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  margin-top: auto;
+}
+
+.ucl-description {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.ucl-description::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ucl-description::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.ucl-description::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Градієнт внизу контейнера для індикації прокрутки */
+.ucl-description-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(transparent, white);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.needs-scroll .ucl-description-container::after {
+  opacity: 1;
+}
+
+/* Запобігаємо активації посилання при прокручуванні опису */
+.ucl-description {
+  pointer-events: auto;
+}
+
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .ucl-card {
+    width: 200px;
+    height: 310px;
+  }
+
+  .ucl-image-container img {
+    height: 150px;
+  }
+
+  .ucl-info-title {
+    font-size: 17px;
+  }
+
+  .ucl-date-bar {
+    font-size: 10px;
+  }
+
+  .ucl-divider {
+    margin: 1%;
+  }
+
+  .ucl-description {
+    font-size: 10px;
+    padding: 0 12px 8px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .ucl-card {
+    width: 220px;
+    height: 350px;
+  }
+
+  .ucl-image-container img {
+    height: 180px;
+  }
+
+  .ucl-date-bar {
+    font-size: 11px;
+  }
+
+  .ucl-info-title {
+    font-size: 17px;
+    padding: 2%;
+  }
+
+  .ucl-description {
+    font-size: 10px;
+    padding: 0 15px 10px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+  #ucl-card-container {
+    gap: 20px;
+    max-width: 900px;
+  }
+
+  .ucl-info-title {
+    font-size: 17px;
+  }
+
+  .ucl-date-bar {
+    font-size: 11px;
+  }
+
+  .ucl-description {
+    font-size: 11px;
+    padding: 0 15px 20px;
+  }
+}

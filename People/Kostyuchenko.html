@@ -1,0 +1,175 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Костюченко Андрій Олександрович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Костюченко Андрій Олександрович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Kostyuchenko.webp";
+            document.getElementById("person-name").textContent = "Костюченко Андрій Олександрович";
+            document.getElementById("person-years").textContent = "2014";
+            document.getElementById("person-description").textContent = "Кандидат педагогічних наук, старший викладач кафедри.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Чернігівський державний педагогічний університет імені Т. Г. Шевченка, фізико-математичний факультет.
+            Спеціальність: Математика та основи економіки.
+            Кваліфікація: вчитель математики та основ економіки.
+            Диплом з відзнакою: ЕН № 23165821 від 21 червня 2003 р.</p>
+            <p>Кандидат педагогічних наук.
+            Спеціальність: 13.00.02 – теорія та методика навчання (інформатика).
+            Тема дисертації: "Комп’ютерно орієнтована методична система підготовки майбутніх учителів математики та інформатики до розроблення педагогічних програмних засобів".
+            Диплом кандидата наук: ДК № 022571 від 26 червня 2014 р.
+            Захист відбувся у спеціалізованій вченій раді при Національному педагогічному університеті імені М. П. Драгоманова.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Використання ППЗ NUMET при вивченні елементів чисельних методів. 2003",
+                "Комп'ютерний підручник як один з видів комп'ютерних засобів навчання. 2006",
+                "Про спецкурс 'Сучасні технології контролю знань, вмінь та навичок учнів на уроках інформатики'. 2006",
+                "Деякі особливості геометричних перетворень в програмі GRAN-2D. 2007",
+                "Методичні основи створення педагогічних програмних засобів. 2008",
+                "Вимоги до педагогічних програмних засобів. 2008",
+                "Комп'ютерне тестування, як засіб контролю знань. 2008",
+                "Про кількість нерухомих точок перестановок, число е та індивідуальний підхід у навчанні елементів стохастики майбутніх учителів математики. 2009",
+                "Що потрібно знати програмістові, який працює з комп'ютерною побудовою графіків функцій. 2010",
+                "Психолого-педагогічні складові готовності майбутніх викладачів математики та інформатики до розробки ППЗ. 2011",
+                "Методичні підходи до викладання програмування в педагогічних ВНЗ, як один з початкових кроків до створення вільнорозповсюджуваних програмних засобів навчального призначення. 2012",
+                "Підходи та етапи проектування педагогічних програмних засобів. 2013",
+                "Створення програмних засобів з графічним інтерфейсом. 2013",
+                "Виbор критериев качества педагогических программных средств, для их экспертной оценки. 2013",
+                "Интегрированная середа разработки Lazarus, как свободно распространяемый инструмент для создания педагогических программных средств с графическим интерфейсом. 2013",
+                "Комп'ютерно орієнтована методична система підготовки майбутніх учителів математики та інформатики до розроблення педагогічних програмних засобів. 2014",
+                "Особливості створення педагогічних програмних засобів математичного спрямування. 2015",
+                "Levels of teachers' ICT competence in the field of web services. 2016",
+                "Features of Implementation of a Learning Management System in the Educational Process in a Ukrainian University. 2017",
+                "Елементи навчально-методичного комплексу з навчання створення педагогічних програмних засобів на прикладі вихідних кодів вже існуючих програмних засобів. 2017",
+                "Ідеї фундаменталізації змісту інформативних дисциплін для підвищення ефективності навчання в педагогічних університетах. 2017",
+                "Methodological approaches to the selection of learning management systems for using in the educational process. 2018",
+                "Трансформація змісту навчання інформатики на непрофільних спеціальностях. 2018",
+                "Impact of changes in teaching computer science in ukrainian schools on forming the content of computer science courses at non-core specialties in universities. 2019",
+                "Технології опрацювання великих даних у навчанні інформатичних дисциплін. 2021",
+                "Застосування моделей освітнього дизайну у фаховій підготовці вчителів інформатики. 2024"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Теорія і методика розробки педагогічних програмних засобів. 2011",
+                "Теорія і методика створення електронних навчальних посібників. 2013",
+                "Методика використання вільно поширюваних утиліт. 2013",
+                "Система управління навчанням Moodle: навчальний посібник. 2016",
+                "Основи програмування мовою Python. 2020",
+                "Адресація в комп'ютерних мережах. 2021",
+                "Віртуалізація операційних систем: навчально-методичний посібник. 2021",
+                "Програмування у Python. Практичний курс. 2022",
+                "Методичні рекомендації до виконання кваліфікаційної роботи для отримання освітнього ступеня «бакалавр» спеціальності 122 «Комп'ютерні науки». 2024",
+                "Основи інтелектуального аналізу даних і машинного навчання. 2025"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    publicationsList.appendChild(li);
+                });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "chnpu.edu.ua.Кафедра інформатики і обчислювальної техніки. ", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-informatiki-i-obchislyuvalnoji-tekhniki" },
+                { text: "Andrii Kostiuchenko. (n.d.). ORCID profile.", url: "https://orcid.org/0000-0002-6178-6444" },
+                { text: "Google Академія. Андрій Костюченко.", url: "https://scholar.google.com.ua/citations?user=DSZHZ8EAAAAJ&hl=uk" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

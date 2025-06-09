@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Неаполітанський Сергій Аркадійович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../decanu.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../decanu.html')) {
+                sessionStorage.setItem('previousPage', '../decanu.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Неаполітанський Сергій Аркадійович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../decanu.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Neapolitan.webp";
+            document.getElementById("person-name").textContent = "Неаполітанський Сергій Аркадійович";
+            document.getElementById("person-years").textContent = "1917-1920";
+            document.getElementById("person-description").textContent = "Викладач математики, делегат Всеросійських з'їздів, кореспондент наукового комітету з методики навчання математики та голова педагогічної ради Чернігівського учительського інституту.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>У 1917 році до Чернігівського учительського інституту були зараховані досвідчені вчителі математики й фізики з 5-ї Варшавської гімназії, евакуйованої до Чернігова під час Першої світової війни (1912 р.), серед яких був Сергій Аркадійович Неаполітанський. </p>
+            <p>Відомий своїми новаторськими розробками в методиці викладання математики, зокрема курсами, брошурами та доповідями, що стосуються формальної логіки у навчанні арифметики й геометрії. Неаполітанський активно брав участь у Всеросійських з'їздах викладачів математики 1911—1914 років, де обговорювались реформи в математичній освіті, а також керував однією з секцій на другому з'їзді.</p>
+            <p>У 1916—1917 роках був кореспондентом наукового комітету з розгляду навчальних посібників з методики викладання математики. </p>
+            <p>З жовтня 1919 року по червень 1920 року, під час відсутності директора С.І. Воробйова, виконував обов'язки голови педагогічної ради Чернігівського учительського інституту.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Записки з МНМ — форсований курс лекцій, прочитаний на педагогічних окружних курсах.", "Брошура про викладання арифметики та геометрії з точки зору вимог формальної логіки."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                researchList.appendChild(li);
+            });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Брошура-доповідь “Елементи логіки в шкільній математиці”, прочитана на Варшавському з’їзді викладачів математики (1902 р.).", "Брошура про викладання арифметики та геометрії з точки зору вимог формальної логіки."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" },
+                { text: "Анатолій Боровик, Микола Боровик ІСТОРІЯ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ У БІОГРАФІЯХ ЙОГО КЕРІВНИКІВ - 416 с.", url: "http://erpub.chnpu.edu.ua:8080/jspui/handle/123456789/3226" },
+                { text: "Чернігівський інститут народної освіти за часів керівництва С.І. Воробйова - 8 c.", url: href = "../doc/чіно за часів воробйова.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

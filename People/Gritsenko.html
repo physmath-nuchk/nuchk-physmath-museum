@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Гриценко Микола Іванович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Гриценко Микола Іванович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profemployees";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Gritsenko.webp";
+            document.getElementById("person-name").textContent = "Гриценко Микола Іванович";
+            document.getElementById("person-years").textContent = "1964-зараз";
+            document.getElementById("person-description").textContent = "Доктор фізико-математичний наук, професор";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Гриценко Микола Іванович (нар. 8 березня 1943, с. Підлісне Козелецького району Чернігівської області) — український фізик, доктор фізико-математичних наук (1989), професор (1990), заслужений працівник народної освіти України (1993), академік АН ВШ України (2004).</p>
+            <p>У 1964 році закінчив фізико-математичний факультет Чернігівського державного педагогічного інституту імені Т.Г. Шевченка, здобувши кваліфікацію вчителя фізики і загальнотехнічних дисциплін.</p>
+            <p>Кандидатську дисертацію на тему «Електричні властивості дифенілполієнів» захистив у 1973 році. У 1989 році захистив докторську дисертацію на тему «Електричні властивості рідких кристалів».</p>
+            <p>Від 1964 року працює в Чернігівському державному педагогічному інституті (нині — Національний університет «Чернігівський колегіум» імені Т.Г. Шевченка). З 1982 по 2017 рік очолював кафедру фізики та астрономії. У 1990 році отримав вчене звання професора.</p>
+            <p>Микола Іванович є засновником та керівником лабораторії рідких кристалів. Його наукова діяльність зосереджена у галузях фізики твердого тіла, фізики органічних напівпровідників, електрооптики рідких кристалів і дидактики вищої школи.</p>
+            <p>Викладає курси загальної фізики, фізики рідких кристалів та фізики напівпровідників.</p>
+            <p>Автор понад 200 наукових публікацій, 10 авторських свідоцтв і патентів, а також двох навчальних посібників: «Фізика рідких кристалів» та «Основы физики жидких кристаллов».</p>
+            <p>Нагороджений відзнаками: «Відмінник народної освіти УРСР» (1991), Почесна грамота Міністерства освіти України (2001), Грамота Академії педагогічних наук України (2000) та іншими.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Фізика рідких кристалів. Пружні властивості нематичних рідких кристалів. Фізика та астрономія в рідній школі, 2008.",
+                "Вивчення електрооптичних властивостей рідких кристалів у курсі загальної фізики вищої школи. S-ефект. Науковий часопис НПУ імені М.П. Драгоманова, 2006.",
+                "Визначення коефіцієнтів в’язкості Мієсовича у рідких кристалах методом Стокса. Матеріали 3-ї міжнар. наук.-метод. конф..",
+                "Демонстрація розсіювання світла з використанням електрооптичного ефекту динамічного розсіювання в нематичному рідкому кристалі. Вісник ЧДПУ, 2006.",
+                "Дослідження перебігу фазових переходів у рідких кристалах за зміною їх текстур. Науковий часопис НПУ імені М.П. Драгоманова, 2006.",
+                "Вивчення інтерференції поляризованого світла в нематичному рідкому кристалі. Вісник ЧДПУ, 2005.",
+                "Вивчення рідких кристалів у розділах «Термодинаміка» та «Оптика» курсу загальної фізики вищої школи. Вісник ЧДПУ, 2007.",
+                "Фізика полімерних дисперсних і напівпровідникових сполук. Редакційна рада, 2006.",
+                "Вивчення фазових станів рідких кристалів за зміною їх текстур. Вісник ЧДПУ, 2004",
+                "Роль адсорбованих зарядів у переорієнтації нематика біля пори діелектрика. Вісник ЧДПУ, 2001."].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Лабораторний практикум: Фізика рідких кристалів для фізичних спеціальностей педагогічних вузів. Наук. вісник Миколаївського пед. ун-ту. Вип. 1, 1999.",
+                "Лабораторний практикум з фізики рідких кристалів: [навч. посібник] Ніжин: Видавництво НДУ ім. М. Гоголя, 2013.",
+                "Вивчення рідких кристалів у курсі загальної фізики. Видавництво НПУ імені М.П. Драгоманова, 2001.",
+                "Практикум з фізики рідких кристалів у навчальному процесі студентів інженерних спеціальностей. Технічні науки та технології: наук. журнал, 2016.",
+                "ПРАКТИКУМ ПО ФИЗИКЕ ЖИДКИХ КРИСТАЛЛОВ В УЧЕБНОМ ПРОЦЕССЕ СТУДЕНТОВ ИНЖЕНЕРНЫХ СПЕЦИАЛЬНОСТЕЙ. Технические науки и технологии, 2016.",
+                "Физика жидких кристаллов. Чернигов, 2015.",
+                "Основы физики жидких кристаллов. Saarbrücken: Palmarium Academic Publishing, 2015.",
+                "Рідкі кристали в телебаченні. Фізика та астрономія в рідній школі, 2017.",
+                "Рідкі кристали і життя. Фізика та астрономія в рідній школі, 2009.",
+                "Рідкі кристали в термографії. Фізика та астрономія в рідній школі, 2019.",
+                "Леонард Ейлер і фізика. Матеріали міжвузівської наук.-практ. конференції, 2007."
+
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "chnpu.edu.ua.Кафедра фізики та астрономії. ", url: "http://chnpu.edu.ua/lecterns/physandmath-lectern/302-kafedra-fiziki-ta-astronomiji" },
+                { text: "Google Академія. Гриценко Микола Іванович.", url: "https://scholar.google.com.ua/citations?user=cj7mSZYAAAAJ&hl=uk" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

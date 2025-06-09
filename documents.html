@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Меню навігації для сайту фізико-математичного факультету Чернігівського колегіуму. Пошук по всіх сторінках і датах.">
+    <meta name="keywords"
+        content="фізико-математичний факультет, Чернігів, факультет, пошук, декани, професори, співробітники, випускники, фотоархів, документи">
+    <meta name="author" content="Olena Lebid">
+    <link rel="icon" href="img/icons/doc.png" type="documents">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-..." crossorigin="anonymous">
+    <title>Документи</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="doc.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,318;1,318&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Підключення шапки профілю, меню та пошукової форми -->
+    <div id="header-container"></div>
+    <div class="container py-4">
+
+        <!-- Кнопки для мобільних пристроїв -->
+        <div class="floating-buttons d-lg-none position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
+            <button class="button-icon menu-toggle" aria-label="Меню" onclick="toggleMenu()">☰</button>
+            <button class="button-icon search-toggle" aria-label="Пошук" onclick="toggleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Пошукова стрічка для великих екранів -->
+        <div class="search-container d-none d-lg-block mb-4">
+            <div class="input-group position-relative">
+                <input type="text" id="desktop-search-input" class="form-control" placeholder="Введіть запит...">
+                <button id="desktop-clear-search" class="clear-input" aria-label="Очистити">✕</button>
+                <button id="desktop-search-button" class="custom-button">Пошук</button>
+            </div>
+            <div id="desktop-search-results" class="mt-3"></div>
+        </div>
+
+        <!-- Оверлей пошуку для мобільних -->
+        <div id="search-overlay" class="search-overlay">
+            <div class="search-box">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Пошук</h5>
+                    <button type="button" class="btn-close" aria-label="Закрити" onclick="closeSearch()"></button>
+                </div>
+                <div class="search-input-wrapper mb-2">
+                    <input type="text" id="mobile-search-input" class="form-control" placeholder="Пошук...">
+                    <button id="mobile-clear-search" class="clear-input" aria-label="Очистити поле пошуку">✕</button>
+                </div>
+                <div id="mobile-search-button" class="btn btn-primary w-100 mb-2">Шукати</div>
+                <div id="mobile-search-results" class="mt-3"></div>
+            </div>
+        </div>
+
+    </div>
+    <script src="head.js" type="text/javascript"></script>
+    <div class="container mt-5">
+        <h2 class="text-center mb-5">Архів Документів</h2>
+
+        <!-- Список документів -->
+        <div class="document-list">
+            <div class="document-item">
+                <div class="document-title">Кафедра фізики та астрономії</div>
+                <div class="document-description">Історичний нарис</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>2016</p>
+                    <p><strong>Автор:</strong> М.І. Гриценко та Ю.В. Дятлов</p>
+                    <p><strong>Вага документа:</strong> 1,11 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 15</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/Кафедра фізики та астрономії.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/Кафедра фізики та астрономії.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО
+                    НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ
+                    ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ)
+                </div>
+                <div class="document-description">У статті висвітлено питання історії створення та функціонування
+                    фізико-математичного факультету ЧНПУ у контексті становлення та
+                    розвитку вітчизняної вищої педагогічної фізико-математичної освіти. </div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Автор:</strong> Філон Л.Г. та Ященко О.М.</p>
+                    <p><strong>Вага документа:</strong> 135 КБ</p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/МАЛОВІДОМІ СТОРІНКИ.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/МАЛОВІДОМІ СТОРІНКИ.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">ІСТОРІЯ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ У БІОГРАФІЯХ
+                    ЙОГО КЕРІВНИКІВ</div>
+                <div class="document-description">На основі значної документальної бази в книзі презентовано біографічні
+                    сторінки життя та діяльності керівників, а також історія навчального закладу,
+                    починаючи від Чернігівського учительського інституту, тобто від часу його
+                    створення – 1916 р. й до нині.</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>2016</p>
+                    <p><strong>Автор:</strong> Анатолій Боровик та Микола Боровик</p>
+                    <p><strong>Вага документа:</strong> 3,25 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 416</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/Моно. Історія ЧНПУ.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/Моно. Історія ЧНПУ.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Чернігівський інститут народної освіти за часів керівництва С.І. Воробйова
+                </div>
+                <div class="document-description">У статті мова йде про початковий етап радянського реформування
+                    педагогічної
+                    освіти у м. Чернігові та роль у цьому процесі керівника Чернігівського інституту народної освіти С.
+                    І. Воробйова</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>2014</p>
+                    <p><strong>Автор:</strong> Анатолій Миколайович Боровик</p>
+                    <p><strong>Вага документа:</strong> 67,5 КБ</p>
+                    <p><strong>Кількість сторінок:</strong> 8</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/чіно за часів воробйова.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/чіно за часів воробйова.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Півстоліття невтомної праці</div>
+                <div class="document-description">Нарис історії Чернігівського державного педагогічного інституту ім. Т.
+                    Г. Шевченка</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> В. С. Кролевець, В. У. Чорноус, В. Ф. Шморгун</p>
+                    <p><strong>Вага документа:</strong> 2,66 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 51</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/півстоліття невтомної праці.pdf" class="download-btn" download>Завантажити
+                        PDF</a>
+                    <a href="doc/півстоліття невтомної праці.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Василь Наумович Боровик (1925–2007)</div>
+                <div class="document-description">До 90-річчя від дня народження. Біобібліографічний покажчик</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> Н. П. Шуляр, Г. Г. Макарова</p>
+                    <p><strong>Вага документа:</strong> 187 КБ</p>
+                    <p><strong>Кількість сторінок:</strong> 33</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/BorovykV.pdf" class="download-btn" download>Завантажити
+                        PDF</a>
+                    <a href="doc/BorovykV.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title"> Савченко Віталій Федорович</div>
+                <div class="document-description">Біобібліографічний покажчик</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> Іполітова, Л. А. Макарова, Ганна Григорівна</p>
+                    <p><strong>Вага документа:</strong> 164 КБ </p>
+                    <p><strong>Кількість сторінок:</strong> 30</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/Савченко Віталій Федорович.pdf" class="download-btn" download>Завантажити
+                        PDF</a>
+                    <a href="doc/Савченко Віталій Федорович.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Спогади про Фалько Василя Артемовича</div>
+                <!--<div class="document-description"></div> -->
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> Фармагей (Манькосько) Олена Павлівна</p>
+                    <p><strong>Вага документа:</strong> 96,0 КБ</p>
+                    <p><strong>Кількість сторінок:</strong> 2</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/Спогади/Фалько В.С. писала Фармагей О.П..pdf" class="download-btn" download>Завантажити
+                        PDF</a>
+                    <a href="doc/Спогади/Фалько В.С. писала Фармагей О.П..pdf" class="view-btn"
+                        target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Спогади про Боровика Василя Наумовича</div>
+                <!--<div class="document-description"></div> -->
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> РУДНИК А.В</p>
+                    <p><strong>Вага документа:</strong> 14,2 КБ </p>
+                    <p><strong>Кількість сторінок:</strong> 3</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/Спогади/РУДНИК А.В..txt" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/Спогади/РУДНИК А.В..txt" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">Професор Г.Ю. Ілляшенко – відомий український фізик, методист та педагог,
+                    завідувач кафедри методики фізики Чернігівського педагогічного інституту</div>
+                <!--<div class="document-description"></div> -->
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <!--<p><strong>Рік:</strong>2016</p>-->
+                    <p><strong>Автор:</strong> Борисенко О.С., Цюпа А.М., Лук`яненко Е.В.</p>
+                    <p><strong>Вага документа:</strong> 183 КБ</p>
+                    <p><strong>Кількість сторінок:</strong> 5</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/ілляшенко.pdf" class="download-btn" download>Завантажити
+                        PDF</a>
+                    <a href="doc/ілляшенко.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№1 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>03.2012</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,35 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/гагета/універ_city 03_2012.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/гагета/універ_city 03_2012.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№1 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>04.2013</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,29 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 04_2013.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 04_2013.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№2 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>06_2010</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,65 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 16</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 06_2010.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 06_2010.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№2 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>06_2011</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,66 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 15</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 06_2011.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 06_2011.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div id="univer-city-10-2011" class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№3 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>10_2011</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,78 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 16</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 10_2011.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 10_2011.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№3 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>10_2012</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,36 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 10_2012.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 10_2012.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№1 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>12_2008</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,50 МБ</p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 12_2008.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 12_2008.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№5-6 Освітньо-пізнавальний часопис для викладачів і студентів
+                </div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>12_2009</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,42 МБ </p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 12_2009.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 12_2009.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№5-6 Освітньо-пізнавальний часопис для викладачів і студентів
+                </div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>06_2011</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,37 МБ </p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 12_2010.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 12_2010.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+            <div class="document-item">
+                <div class="document-title">УНІВЕР CITY</div>
+                <div class="document-description">№4 Освітньо-пізнавальний часопис для викладачів і студентів</div>
+                <!-- Опис документа -->
+                <div class="document-info">
+                    <p><strong>Рік:</strong>12_2012</p>
+                    <!-- <p><strong>Автор:</strong></p> -->
+                    <p><strong>Вага документа:</strong> 1,31 МБ </p>
+                    <p><strong>Кількість сторінок:</strong> 12</p>
+                </div>
+                <div class="action-btns">
+                    <a href="doc/газета/універ_city 12_2012.pdf" class="download-btn" download>Завантажити PDF</a>
+                    <a href="doc/газета/універ_city 12_2012.pdf" class="view-btn" target="_blank">Переглянути</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Футер -->
+    <div id="footer-container"></div>
+    <!-- Кнопка "Нагору" -->
+    <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+
+
+    <!-- Завантаження меню -->
+    <script src="main_script.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Функція пошуку
+        function searchDocuments() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const documentItems = document.querySelectorAll('.document-item');
+            let resultsFound = false;
+
+            documentItems.forEach(item => {
+                const title = item.querySelector('.document-title').textContent.toLowerCase();
+                const description = item.querySelector('.document-description').textContent.toLowerCase();
+
+                if (title.includes(searchQuery) || description.includes(searchQuery)) {
+                    item.style.display = 'block';
+                    resultsFound = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Показати повідомлення про відсутність результатів
+            const noResultsMessage = document.getElementById('no-results');
+            if (!resultsFound) {
+                noResultsMessage.style.display = 'block';
+            } else {
+                noResultsMessage.style.display = 'none';
+            }
+        }
+
+        // Функція очищення пошукової стрічки
+        document.getElementById('clearButton').addEventListener('click', function () {
+            document.getElementById('search-input').value = '';
+            const documentItems = document.querySelectorAll('.document-item');
+            documentItems.forEach(item => {
+                item.style.display = 'block';
+            });
+            this.style.display = 'none'; // Сховати хрестик після очищення
+            document.getElementById('no-results').style.display = 'none'; // Сховати повідомлення про відсутність результатів
+        });
+
+        // Обробка кнопки "Пошук"
+        document.getElementById('search-btn').addEventListener('click', searchDocuments);
+
+        // Пошук при натисканні Enter
+        document.getElementById('search-input').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                searchDocuments();
+            }
+        });
+        // Функція для підсвічування активного пункту меню
+        function highlightActiveMenuItem() {
+            // Отримуємо поточний шлях сторінки
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop() || 'fiz-mat.html'; // якщо порожній шлях, вважаємо це головною
+
+            console.log("Поточна сторінка:", currentPage); // для діагностики
+
+            // Перебираємо всі пункти меню (як у повному, так і в мобільному меню)
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const href = item.getAttribute('href');
+                console.log("Перевірка пункту меню:", href); // для діагностики
+
+                // Перевіряємо, чи є це посилання активним
+                if (href === currentPage ||
+                    currentPage.includes(href) ||
+                    (currentPage === "" && href === "fiz-mat.html")) {
+                    // Додаємо клас "active" до відповідного пункту меню
+                    item.classList.add('active');
+                    console.log("Знайдено активний пункт:", href); // для діагностики
+                }
+            });
+        }
+    </script>
+    <!-- Підключення Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

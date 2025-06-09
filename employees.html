@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Меню навігації для сайту фізико-математичного факультету Чернігівського колегіуму. Пошук по всіх сторінках і датах.">
+    <meta name="keywords"
+        content="фізико-математичний факультет, Чернігів, факультет, пошук, декани, професори, співробітники, випускники, фотоархів, документи">
+    <meta name="author" content="Olena Lebid">
+    <link rel="icon" href="img/icons/person.png" type="person">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-..." crossorigin="anonymous">
+    <title>Науковці</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="card.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,318;1,318&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Підключення шапки профілю, меню та пошукової форми -->
+    <div id="header-container"></div>
+    <div class="container py-4">
+
+        <!-- Кнопки для мобільних пристроїв -->
+        <div class="floating-buttons d-lg-none position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
+            <button class="button-icon menu-toggle" aria-label="Меню" onclick="toggleMenu()">☰</button>
+            <button class="button-icon search-toggle" aria-label="Пошук" onclick="toggleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Пошукова стрічка для великих екранів -->
+        <div class="search-container d-none d-lg-block mb-4">
+            <div class="input-group position-relative">
+                <input type="text" id="desktop-search-input" class="form-control" placeholder="Введіть запит...">
+                <button id="desktop-clear-search" class="clear-input" aria-label="Очистити">✕</button>
+                <button id="desktop-search-button" class="custom-button">Пошук</button>
+            </div>
+            <div id="desktop-search-results" class="mt-3"></div>
+        </div>
+
+        <!-- Оверлей пошуку для мобільних -->
+        <div id="search-overlay" class="search-overlay">
+            <div class="search-box">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Пошук</h5>
+                    <button type="button" class="btn-close" aria-label="Закрити" onclick="closeSearch()"></button>
+                </div>
+                <div class="search-input-wrapper mb-2">
+                    <input type="text" id="mobile-search-input" class="form-control" placeholder="Пошук...">
+                    <button id="mobile-clear-search" class="clear-input" aria-label="Очистити поле пошуку">✕</button>
+                </div>
+                <div id="mobile-search-button" class="btn btn-primary w-100 mb-2">Шукати</div>
+                <div id="mobile-search-results" class="mt-3"></div>
+            </div>
+        </div>
+
+    </div>
+    <div id="ucl-card-container"></div>
+    <div class="footer" id="footer-container"></div>
+    <!-- Кнопка "Нагору" -->
+    <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+</body>
+<script>
+    // Функція для підсвічування активного пункту меню
+    function highlightActiveMenuItem() {
+        // Отримуємо поточний шлях сторінки
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'fiz-mat.html'; // якщо порожній шлях, вважаємо це головною
+
+        console.log("Поточна сторінка:", currentPage); // для діагностики
+
+        // Перебираємо всі пункти меню (як у повному, так і в мобільному меню)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            const href = item.getAttribute('href');
+            console.log("Перевірка пункту меню:", href); // для діагностики
+
+            // Перевіряємо, чи є це посилання активним
+            if (href === currentPage ||
+                currentPage.includes(href) ||
+                (currentPage === "" && href === "employees.html")) {
+                // Додаємо клас "active" до відповідного пункту меню
+                item.classList.add('active');
+                console.log("Знайдено активний пункт:", href); // для діагностики
+            }
+        });
+    }
+    // Додаємо стилі для модального вікна
+    function addModalStyles() {
+        const style = document.createElement("style");
+        style.textContent = `
+        .ucl-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .ucl-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .ucl-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+        
+        .ucl-modal-message {
+            font-size: 16px;
+            color: #444;
+            margin: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+        document.head.appendChild(style);
+    }
+
+    // Функція для створення модального вікна
+    function createModalWindow() {
+        // Перевіряємо, чи вже існує модальне вікно
+        if (document.getElementById("ucl-no-info-modal")) {
+            return;
+        }
+
+        // Створюємо модальне вікно
+        const modal = document.createElement("div");
+        modal.id = "ucl-no-info-modal";
+        modal.className = "ucl-modal";
+        modal.style.display = "none";
+        modal.innerHTML = `
+        <div class="ucl-modal-content">
+            <h3 class="ucl-modal-title">Інформація відсутня</h3>
+            <p class="ucl-modal-message">На жаль, детальна інформація про <span id="ucl-person-name"></span> відсутня в базі даних.</p>
+        </div>
+    `;
+
+        // Додаємо обробник кліку для закриття модального вікна
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                hideNoInfoModal();
+            }
+        });
+
+        document.body.appendChild(modal);
+    }
+
+    // Функція для показу модального вікна
+    function showNoInfoModal(personName) {
+        // Перевіряємо чи існує модальне вікно, якщо ні - створюємо
+        if (!document.getElementById("ucl-no-info-modal")) {
+            // Додаємо стилі, якщо вони ще не додані
+            addModalStyles();
+            // Створюємо вікно
+            createModalWindow();
+        }
+
+        const modal = document.getElementById("ucl-no-info-modal");
+        const nameElement = document.getElementById("ucl-person-name");
+
+        // Встановлюємо ім'я особи
+        nameElement.textContent = personName;
+
+        // Показуємо модальне вікно
+        modal.style.display = "flex";
+
+        // Встановлюємо автоматичне закриття через 3 секунди
+        setTimeout(function () {
+            hideNoInfoModal();
+        }, 3000);
+    }
+
+    // Функція для закриття модального вікна
+    function hideNoInfoModal() {
+        const modal = document.getElementById("ucl-no-info-modal");
+
+        if (!modal) return;
+
+        modal.style.animation = "fadeOut 0.3s";
+
+        // Чекаємо завершення анімації
+        setTimeout(function () {
+            modal.style.display = "none";
+            modal.style.animation = "";
+        }, 300);
+    }
+
+    // Функція для створення карток професорів з можливістю прокручування опису
+    function createCards() {
+        const container = document.getElementById("ucl-card-container");
+
+        // Перевіряємо чи існує контейнер
+        if (!container) {
+            console.error("Контейнер для карток не знайдено");
+            return;
+        }
+
+        // Масив з даними для професорів
+        const cards = [
+            {
+                link: 'People/Chornous.html',
+                img: 'img/портрети/Chornous.webp',
+                alt: 'Чорноус Василь Устинович',
+                cardId: 'Chornous',
+                date: { year1: "1933", year2: "1936" },
+                name: { line1: 'Чорноус Василь Устинович' },
+                description: 'Студент фізико-математичного факультету, директор Чернігівського учительського інституту'
+            },
+            {
+                link: 'People/Kalita.html',
+                img: 'img/портрети/Kalita.webp',
+                alt: 'Калита Євген Григорович',
+                cardId: 'Kalita',
+                date: { year1: "1946", year2: "1959" },
+                name: { line1: 'Калита Євген Григорович' },
+                description: 'Випускник інституту, старший лаборант кабінету фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Твердохлібов В.І.',
+                cardId: 'Tverdokhlibov',
+                date: { year1: "?", year2: "1951" },
+                name: { line1: 'Твердохлібов В.І.' },
+                description: 'Асистент кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Савонов В.М.',
+                cardId: 'Savonov',
+                date: { year1: "2014", year2: "2015" },
+                name: { line1: 'Савонов В.М.' },
+                description: 'Завідувач лабораторіями фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Шкардибарда Аліна Анатоліївна',
+                cardId: 'Shkardibarda',
+                date: { year1: "", year2: "" },
+                name: { line1: 'Шкардибарда Аліна Анатоліївна' },
+                description: 'Старший лаборант'
+            }
+        ];
+        // Створення карток
+        cards.forEach(card => {
+            const a = document.createElement("a");
+            // Встановлюємо посилання тільки якщо воно не пусте
+            if (card.link) {
+                a.href = card.link;
+                a.setAttribute("data-has-link", "true");
+                a.setAttribute("data-link", card.link);
+            } else {
+                a.href = "#";
+                a.setAttribute("data-has-link", "false");
+            }
+
+            a.className = "ucl-card-link";
+            a.setAttribute("data-person-name", card.name.line1);
+            a.setAttribute("aria-label", `Details about ${card.name.line1}`);
+            a.innerHTML = `
+            <div class="ucl-card">
+                <div class="ucl-image-container">
+                    <img src="${card.img}" alt="${card.alt}" />
+                </div>
+                <div class="ucl-date-bar" aria-label="Years active">
+                    <span class="ucl-year-left">${card.date.year1}</span>
+                    <span class="ucl-dash"></span>
+                    <span class="ucl-year-right">${card.date.year2}</span>
+                </div>
+                <div class="ucl-info">
+                    <h class="ucl-info-title">
+                        ${card.name.line1}
+                    </h>
+                </div>
+                <hr class="ucl-divider" />
+                <div class="ucl-description-container">
+                    <div class="ucl-description" aria-label="Event location and description">
+                        ${card.description}
+                    </div>
+                </div>
+            </div>
+        `;
+
+            // Додаємо обробник кліку
+            a.addEventListener("click", function (event) {
+                if (this.getAttribute("data-has-link") === "true") {
+                    // Якщо є посилання - переходимо за ним (це стандартна поведінка)
+                    return;
+                } else {
+                    // Якщо посилання немає - показуємо модальне вікно
+                    event.preventDefault();
+                    showNoInfoModal(this.getAttribute("data-person-name"));
+                }
+            });
+
+            container.appendChild(a);
+        });
+
+        // Запобігаємо активації посилання при прокручуванні опису
+        document.querySelectorAll('.ucl-description').forEach(desc => {
+            desc.addEventListener('wheel', function (event) {
+                event.stopPropagation();
+            });
+
+            desc.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+        });
+    }
+
+    // Функція для перевірки необхідності прокрутки
+    function checkForScrolling() {
+        document.querySelectorAll('.ucl-description-container').forEach(container => {
+            const description = container.querySelector('.ucl-description');
+
+            // Перевіряємо, чи контент більший за контейнер
+            if (description && description.scrollHeight > container.clientHeight) {
+                container.classList.add('needs-scroll');
+            } else if (description) {
+                container.classList.remove('needs-scroll');
+            }
+        });
+    }
+
+    // Ініціалізація при завантаженні сторінки
+    document.addEventListener('DOMContentLoaded', function () {
+        // Додаємо стилі для модального вікна
+        addModalStyles();
+
+        // Створюємо модальне вікно
+        createModalWindow();
+
+        // Створюємо картки
+        createCards();
+
+        // Запускаємо перевірку прокрутки
+        checkForScrolling();
+    });
+
+    // Додаємо слухач подій на зміну розміру вікна
+    window.addEventListener('resize', checkForScrolling);
+</script>
+<script src="main_script.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
+    crossorigin="anonymous"></script>
+<script src="loadHeader.js"></script>
+
+</html>

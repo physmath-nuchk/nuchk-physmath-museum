@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Коваль Іван Кирилович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Коваль Іван Кирилович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Koval.webp";
+            document.getElementById("person-name").textContent = "Коваль Іван Кирилович";
+            document.getElementById("person-years").textContent = "1975-2008";
+            document.getElementById("person-description").textContent = "Астроном, доктор фізико-математичних наук";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Коваль Іван Кирилович (10.11.1929, с. Аннівка, Миколаївська обл. — 16.06.2020, м. Чернігів) — український астроном, доктор фізико-математичних наук (1969), професор (1982), заслужений діяч науки і техніки України (1991), член Міжнародного астрономічного союзу (з 1964).</p> 
+            <p>Закінчив фізико-математичний факультет Харківського державного університету ім. О. М. Горького за спеціальністю «астрономія».</p>
+            <p>З 1960 — старший науковий співробітник, з 1964 — завідувач відділу астрофізики, з 1973 по 1975 — директор Головної астрономічної обсерваторії АН УРСР. Очолював комісію з фізики планет Астрономічної ради АН СРСР (з 1973). Керував дослідженнями Марса, Венери, Меркурія, а також космічними проектами серії «Марс» (1971–1973).</p>
+            <p>З 1975 — викладач Чернігівського державного педагогічного інституту, з 1983 — завідувач кафедри астрономії і теоретичної фізики. Відомий популяризатор астрономічних знань, активний учасник міжнародних конференцій та з’їздів.</p>
+            <p>Заслужений діяч науки і техніки України, учасник міжнародних наукових форумів у США, Великій Британії, Нідерландах, НДР, ФРН, Польщі, Чехословаччині.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Фотографическая фотометрия Марса со светофильтрами во время великого противостояния в 1956 г.",
+                "Результаты лабораторных фотометрических измерений искусственных планет"(1971),
+                "О влиянии атмосферного дрожания на распределение яркости по диску планеты (1968)",
+                "Электрофотометрические разрезы диска Марса в участках спектра интервала 355–600 нм (1966)",
+                "О возможности восстановления изображения, замытого атмосферными неоднородностями (1965)",
+                "О некоторых свойствах желтой мглы на Марсе в 1956 г.",
+                "Результаты фотографических наблюдений Марса в 1954 году",
+                "О фиолетовых облаках Марса (1971)",
+                "Спектрофотометрические особенности некоторых спутников планет (1971)",
+                "Фазовый ход яркости Марса по фотоэлектрическим наблюдениям 1967 г.",
+                "Результаты спектрофотометрических наблюдений Марса в 1960–1961 гг.",
+                "Оптические характеристики атмосферы Марса, полученные по измеренным контрастам (1971)",
+                "АТМОСФЕРА И ПОВЕРХНОСТЬ МАРСА (1971)",
+                "ОСТЕПЕНИ ГЛАДКОСТИ МАРСИАНСКИХ ПУСТЫНЬ (1963)",
+                "Результаты предварительной обработки некоторых спектрограмм Венеры... (1965)",
+                "Циркуляр Харьковской астрон. обсерв., № 15 (1956)"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Планета Марс (1971)",
+                "ФИЗИКА ПЛАНЕТЫ МАРС (1972)",
+                "Физика Луны и планет (1964)",
+                "Новое о Марсе (1970)",
+                "Фотографические наблюдения Марса в период великого противостояния 1971 г.",
+                "ХАРАКТЕРИСТИКИ ФИОЛЕТОВЫХ ОБЛАКОВ МАРСА... (1974)",
+                "ДАННЫЕ ФОТОМЕТРИЧЕСКОЙ ОБРАБОТКИ СНИМКОВ, ПОЛУЧЕННЫХ КА 'МАРС-3' (1975)",
+                "ФОТОГРАФИЧЕСКИЕ НАБЛЮДЕНИЯ МАРСА... (1971)",
+                "Фізичні основи спектральної класифікації зірок (2003)",
+                "Про астрономічну спадщину Леонарда Ейлера (2007)",
+                "Визначення астрономічної рефракції на малих висотах (2006)", "ОПИСАНИЕ ОПЫТА ПЕДАГОГИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ..."].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    publicationsList.appendChild(li);
+                });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Коваль Іван Кирилович //Вікіпедія: вільна енциклопедія", url: "https://uk.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B2%D0%B0%D0%BB%D1%8C_%D0%86%D0%B2%D0%B0%D0%BD_%D0%9A%D0%B8%D1%80%D0%B8%D0%BB%D0%BE%D0%B2%D0%B8%D1%87" },
+                { text: "Google Академія. Юрій Дятлов.", url: "https://scholar.google.com.ua/citations?user=nVerJnAAAAAJ&hl=uk" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

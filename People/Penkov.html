@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Пеньков Андрій Вікторович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Активний пункт меню
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Пеньков Андрій Вікторович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Penkov.webp"; // Портрет постаті
+            document.getElementById("person-name").textContent = "Пеньков Андрій Вікторович"; //Повне ім’я персони
+            document.getElementById("person-years").textContent = "1980-2026"; //Роки обіймання посади
+            document.getElementById("person-description").textContent = "Педагог, кандидат педагогічних наук, доцент кафедри інформатики і обчислювальної техніки"; //Опис посади або звання
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Андрій Вікторович Пеньков (1958-2016) — український інформатик, педагог, кандидат педагогічних наук, доцент. Народився у 1958 році, помер 4 березня 2016 року.</p>
+            <p>Здобув вищу освіту в Чернігівському державному педагогічному інституті на фізико-математичному факультеті, де упродовж п'яти років навчання був відмінником. Спочатку орієнтувався на дослідження в галузі функціонального аналізу під керівництвом Я.А. Ройтберга і З.Г. Шефтеля, але згодом обрав напрям інформатики та методики її навчання.А</p>
+            <p>З середини 1980-х років брав участь у роботі інформаційно-програмістського осередку на кафедрі вищої алгебри Чернігівського педінституту під керівництвом професора Л.М. Вивальнюка.</p>
+            <p>У 1989 році вступив до аспірантури Київського державного педагогічного інституту за спеціальністю "Методика навчання інформатики" під керівництвом М.І. Жалдака. Захистив кандидатську дисертацію за двома спеціальностями: 13.00.02 — методика навчання інформатики та 13.00.02 — методика навчання математики. Став першим на Чернігівщині кандидатом педагогічних наук із спеціальності методика навчання інформатики. Отримав вчене звання доцента.</p>
+            <p>У 1989 році створив програму NERAV для графічного розв'язування нерівностей (у співпраці з Ю.В. Горошком). У 1990 році розробив пакет педагогічних програмних засобів «GRAN», який у 1991 році отримав офіційне визнання та методичні рекомендації.</p>
+            <p>З 1992 року очолював інформаційний відділ фірми "Віват канцелярія", згодом став директором з інформаційної безпеки. З 1995 року — член журі Всеукраїнської олімпіади з інформатики.</p>
+            <p>У 2003 році ініціював запровадження курсу з альтернативного програмного забезпечення, що призвело до переходу факультету на вільно поширювані програми.</p>
+            <p>Понад сорок років працював у Чернігівському державному педагогічному інституті (згодом — Чернігівський національний педагогічний університет імені Т.Г. Шевченка) — від студентських років до останніх днів життя як доцент кафедри інформатики і обчислювальної техніки.</p>
+            <p>Під його керівництвом науковцями стали Ю.В. Горошко, Г.Ю. Цибко, Є.Ф. Вінниченко, А.О. Костюченко, І.М. Лукаш.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Програма NERAV (1989) — для графічного розв’язування нерівностей (створена спільно з Ю. В. Горошком)",
+            "Горошко, Ю. В., Вінниченко, Є. Ф., Костюченко, А. О., Пеньков, А. В., Цибко, Г. Ю., Шкардибарда, М. І.Відбір вільно поширюваного програмного забезпечення для використання у педагогічному університеті / Ю. В. Горошко, Є. Ф. Вінниченко, А. О. Костюченко, А. В. Пеньков, Г. Ю. Цибко, М. І. Шкардибарда // Педагогічний журнал. – 2013"
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                researchList.appendChild(li);
+            });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["1991 рік — «Педагогічний засіб “GRAN”. Методичні рекомендації», укладачі: М. І. Жалдак, А. В. Пеньков",
+            "Костюченко, А. О., Пеньков, А. В.Про спецкурс “Сучасні технології контролю знань, вмінь та навичок учнів на уроках інформатики” / А. О. Костюченко, А. В. Пеньков // Методичний вісник. – 2006. ",
+            "Горошко, Ю. В., Цибко, Г. Ю., Вінниченко, Є. Ф., Костюченко, А. О., Пеньков, А. В., Шкардибарда, М. І.Про вивчення вільно поширюваних офісних пакетів в ЧНПУ імені Т. Г. Шевченка / Ю. В. Горошко, Г. Ю. Цибко, Є. Ф. Вінниченко, А. О. Костюченко, А. В. Пеньков, М. І. Шкардибарда // Вісник університету. – 2013."
+             ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Пам'яті Андрія Вікторовича Пенькова / М. І. Жалдак, Н. В. Морзе, Ю. С. Рамський, Ю. В. Горошко, Г. Ю. Цибко, Є. Ф. Вінниченко, А. О. Костюченко 2016", url: "https://epub.chnpu.edu.ua/jspui/handle/123456789/1502" },
+                { text: "Джерело 1", url: "Посилання на джерело" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

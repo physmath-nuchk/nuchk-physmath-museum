@@ -1,0 +1,688 @@
+body {
+  font-family: "Open Sans", sans-serif !important;
+  background-color: #D9D2CC !important;
+  color: #000000;
+  align-items: center;
+}
+
+h1 {
+  font-size: 400%;
+  padding: 2% 1% 1% 10%;
+  text-align: center;
+  font-weight: bold !important;
+  color: #b78458 !important;
+  flex: 1;
+  background: linear-gradient(145deg, #f1e3b3, #dddddd4a) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  text-shadow:
+    1px 1px 2px rgba(213, 202, 75, 0.161),
+    -1px -1px 3px rgba(120, 77, 53, 0.6),
+    0px 0px 8px rgba(0, 0, 0, 0.146) !important;
+  cursor: default;
+}
+
+h2 {
+  font-size: 40px;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+header {
+  justify-content: space-between;
+  align-items: center;
+  padding: 70px 20px;
+  background-color: #28392F;
+  color: #e9e5e1;
+}
+
+.logo {
+  position: absolute;
+  top: 4%;
+  left: 1%;
+  width: 12%;
+  height: auto;
+  margin: 10px;
+}
+
+/*Основне  навігаційне меню */
+.navbar {
+  background-color: #28392F;
+  padding: 15px 0;
+  border-top: 4px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 253, 253, 0.3);
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+.menu-item {
+  flex: 1;
+  text-align: center;
+  padding: 0.8%;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  border-right: 2px solid #ffffff;
+  position: relative;
+}
+
+/* Підкреслення + анімація */
+.menu-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 4px;
+  width: 0%;
+  background-color: #e9e5e1;
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+}
+
+/* При наведенні */
+.menu-item:hover {
+  background-color: #e9e5e1;
+  color: #1f1f1f;
+  font-weight: bold;
+  transform: scale(1.03);
+}
+
+.menu-item:hover::before {
+  width: 80%;
+}
+
+/* Активний пункт */
+.menu-item.active {
+  background-color: #e9e5e1;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
+.menu-item.active::before {
+  width: 100%;
+}
+
+/* Видаляємо праву межу в останнього пункту */
+.menu-item:last-child {
+  border-right: none;
+}
+
+/*Пошукова стрічка*/
+.search-container {
+  max-width: 600px;
+  margin: 1.4% auto;
+  position: relative;
+}
+
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f1f1f1;
+}
+
+mark {
+  background-color: yellow;
+}
+
+.clear-button {
+  position: absolute;
+  top: 50%;
+  right: 90px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.custom-button {
+  padding: 8px 15px;
+  background-color: #28392F;
+  color: #fff;
+  border: none;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+#search-button {
+  border-radius: 0 8px 8px 0;
+}
+
+/* При наведенні */
+.custom-button:hover {
+  background-color: #c1c1c1;
+  color: #28392F;
+}
+
+/* При натисканні */
+.custom-button:active {
+  background-color: #3b5242;
+}
+
+.input-group {
+  position: relative;
+}
+
+#clear-search {
+  position: absolute;
+  right: 15%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+#clear-search:hover {
+  color: #888;
+}
+
+.form-control:focus+#clear-search {
+  color: inherit;
+}
+
+.clear-icon {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  z-index: 2;
+  display: none;
+}
+
+.clear-icon:hover {
+  color: #555;
+}
+
+#search-input {
+  padding-right: 3.5rem;
+}
+
+/* Для поля вводу при фокусі */
+#search-input:focus {
+  border-color: #ccc;
+  outline: none;
+}
+
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+}
+
+#search-results {
+  position: static;
+  background-color: #c9c2bd;
+  font-style: italic;
+}
+
+/* Кнопка "Нагору" */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28392F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px 18px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+footer {
+  background-color: #28392F;
+}
+
+/* Підкреслення лише для соцмереж при наведенні */
+.footer-socials a {
+  text-decoration: none;
+}
+
+.footer-socials a:hover {
+  text-decoration: underline;
+}
+
+/* Гамбургер-меню */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 1050;
+  padding: 20px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.close-menu {
+  background: none;
+  border: none;
+  font-size: 24px;
+  align-self: flex-end;
+}
+
+/* За замовчуванням мобільне меню приховане */
+#menu-container {
+  display: none;
+}
+
+/* Показати мобільне меню лише на екранах до 992px */
+@media (max-width: 991.98px) {
+  #menu-container {
+    position: fixed;
+    top: 0;
+    right: -65%;
+    width: 65%;
+    height: 100%;
+    background-color: #3b5242;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 20px 40px;
+    transition: right 0.3s ease-in-out;
+    color: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+  }
+
+  #menu-container.active {
+    right: 0;
+  }
+
+  /* Важливо: не має класу active = не видно */
+  #menu-container:not(.active) {
+    right: -65%;
+  }
+
+  nav.navbar {
+    display: none !important;
+    /* приховує десктопне меню на планшетах */
+  }
+
+  #menu-container.active {
+    right: 0;
+    /* з'являється справа */
+  }
+
+  /* Важливо: не має класу active = не видно */
+  #menu-container:not(.active) {
+    right: -65%;
+  }
+
+  nav.navbar {
+    display: none !important;
+  }
+
+  #menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: none;
+  }
+
+  #menu-overlay.active {
+    display: block;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .close-menu {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #fff;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Двоколонкове меню */
+  .menu-items-container {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 10px;
+    width: 100%;
+  }
+
+  .menu-item {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 5px;
+    display: block;
+  }
+
+  .menu-item:hover {
+    color: rgb(59, 82, 66);;
+    transition: all 0.2s ease;
+  }
+}
+
+/* Показати десктопне меню лише на екранах від 992px */
+@media (min-width: 992px) {
+  nav.navbar {
+    display: flex;
+  }
+
+  #menu-container {
+    display: none !important;
+  }
+}
+
+/*Викидна пошуковас трічка Приховане модальне вікно*/
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-box {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 100%;
+  margin: 0 15px;
+}
+
+/* Стилі кнопок */
+.button-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button-icon:hover {
+  background: #e9ecef;
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Стилі полів вводу */
+.search-input-wrapper {
+  position: relative;
+}
+
+.clear-input {
+  position: absolute;
+  right: 13%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  display: none;
+}
+
+.clear-input:hover {
+  color: #343a40;
+}
+
+/* Стилі для десктопного пошуку */
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.custom-button {
+  background-color: #28392F;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.custom-button:hover {
+  background-color: #ffc107;
+  color: white;
+}
+/*Модальна кнопка пошуку */
+#mobile-search-button {
+    background-color: #28392F;
+    color: #ffffff;
+    border: none;
+  }
+
+  /* Коротка підсвітка під час натискання */
+  #mobile-search-button:active {
+    background-color: #FFC107;
+    color: #000;
+  }
+/* Стилі для підсвічування результатів */
+mark {
+  background-color: #fffacd;
+  padding: 0 2px;
+}
+
+/* Адаптивність */
+@media (max-width: 576px) {
+  .search-box {
+    margin: 0 15px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  h1 {
+    font-size: 170%;
+    text-align: left;
+  }
+
+  header {
+    padding: 4% 9%;
+  }
+
+  .container.py-4 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+}
+
+/* Планшети вертикальні */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  h1 {
+    font-size: 200%;
+    padding: 2% 20% 1% 17%;
+    text-align: left;
+  }
+
+  header {
+    padding: 2% 1%;
+  }
+
+  .container {
+    max-width: 80%;
+  }
+}
+
+/* Планшети горизонтальні */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  h1 {
+    font-size: 200%;
+    padding: 2% 20% 1% 17%;
+    text-align: left;
+  }
+
+  header {
+    padding: 2% 1%;
+  }
+
+  .logo {
+    width: 9%;
+    top: 1%;
+  }
+
+  .col-md-4 {
+    width: auto;
+  }
+
+  element.style {
+    max-width: 20%;
+  }
+  
+  .container.py-4 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Ноутбуки */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  h1 {
+    font-size: 280%;
+  }
+
+  h2 {
+    font-size: 35px;
+  }
+
+  header {
+    padding: 4% 1%;
+  }
+
+  .ucl-card {
+    width: 240px;
+    height: 380px;
+  }
+
+  .navbar {
+    padding: 10px 0;
+  }
+
+  .menu-item {
+    font-size: 16px;
+  }
+}
+
+/* Десктопи */
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  h1 {
+    font-size: 300%;
+  }
+
+  header {
+    padding: 4% 1%;
+  }
+}
+
+.container,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl {
+  max-width: 85%;
+}
+
+/* Великі монітори / 4K */
+@media (min-width: 1400px) {
+  .logo {
+    top: 5%;
+    width: 10%;
+  }
+
+  header {
+    padding: 3% 1%;
+  }
+
+  .img-fluid {
+    max-width: 90%;
+  }
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 85%;
+  }
+}

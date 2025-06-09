@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Кролевець Всеволод Степанович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../decanu.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../decanu.html')) {
+                sessionStorage.setItem('previousPage', '../decanu.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Кролевець Всеволод Степанович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../decanu.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Kroleyevts.webp";
+            document.getElementById("person-name").textContent = "Кролевець Всеволод Степанович";
+            document.getElementById("person-years").textContent = "1933-1955";
+            document.getElementById("person-description").textContent = "Кандидат педагогічних наук, доцент, декан фізико-математичного факультету Чернігівського педагогічного інституту ім. Т.Г. Шевченка. Очолював кафедру математики, активно сприяв розвитку математичної освіти та науково-дослідної роботи в інституті."
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>У 1931 році він закінчив техніко-математичний відділ Чернігівського педагогічного інституту, ставши одним із 38 випускників цього напряму. Згодом здобув науковий ступінь кандидата педагогічних наук, отримав звання доцента та обіймав посаду декана фізико-математичного факультету.</p>
+            <p>Після відновлення фізико-математичного факультету інституту у 1946 році за урядовою постановою він став одним із викладачів кафедри математики. Одночасно розпочав активну науково-педагогічну діяльність і згодом очолив факультет. У 1949 році, після поділу кафедри фізики та математики, був призначений завідувачем новоствореної кафедри математики. Він також займався популяризацією математичних знань серед школярів Чернігова, проводячи факультативи та заняття.</p>
+            <p>У 1950-х роках працював над кандидатською дисертацією, яку успішно захистив, отримавши науковий ступінь. У 1961 році за результатами таємного голосування був обраний деканом фізико-математичного факультету ще на три роки. У 1971 році, після поділу факультету на фізичний і математичний, очолив математичний факультет та став головою його ради.</p>
+            <p>Окрім академічної діяльності, активно займався громадською роботою. У 1950-х роках виступав із публічними лекціями з популяризації науки та політичної освіти. Брав участь у науково-дослідній роботі викладачів інституту, підтримував розвиток математичних і педагогічних дисциплін, роблячи значний внесок у формування наукової спільноти Чернігівщини.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації (приховати, якщо не потрібно)
+            const publicationsSection = document.getElementById("publications");
+            const publicationsLink = document.querySelector('nav a[href="#publications"]');
+            const showPublications = false; // Змінити на true, щоб відображати
+
+            if (!showPublications) {
+                publicationsSection.style.display = "none";  // Приховує сам розділ
+                publicationsLink.style.display = "none";     // Приховує пункт меню
+            };
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Анатолій Боровик, Микола Боровик ІСТОРІЯ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ У БІОГРАФІЯХ ЙОГО КЕРІВНИКІВ - 416 с.", url: "http://erpub.chnpu.edu.ua:8080/jspui/handle/123456789/3226" },
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" },
+                {  text: "УНІВЕР CITY №3 (10_2011)", url: "../documents.html#univer-city-10-2011"}
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

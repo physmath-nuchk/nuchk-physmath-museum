@@ -1,0 +1,256 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Бондар Олена Сергіївна</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Бондар Олена Сергіївна";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Bondar.webp";
+            document.getElementById("person-name").textContent = "Бондар Олена Сергіївна";
+            document.getElementById("person-years").textContent = "2012";
+            document.getElementById("person-description").textContent = "Кандидат технічних наук, доцент.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+    <p></p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Біокорозійна активність грунтів Чернігівської області та Карпат, 2007",
+                "Динаміка чисельності бактерій корозійного мікробного угруповання біоплівки на поверхні сталі, 2008",
+                "Бетанал як чинник біоруйнування сталевих споруд у грунті, 2008",
+                "Пестициди як фактор біоруйнування підземних металевих споруд, 2009",
+                "Пестициди як фактор біокорозії сталі, індукованої мікроорганізмами грунту, 2009",
+                "РIСТ КОРОЗІЙНО-НЕБЕЗПЕЧНИХ БАКТЕРІЙ ЗА ПРИСУТНОСТІ ПЕСТИЦИДУ 2, 4-Д, 2010",
+                "Противокорозионные свойства соединений с замещенным триазолоазипиниевым циклом как эффект синергизма, 2010",
+                "Inhibiting action of nitrogen-containing heterocycles in corrosion of low-carbon steel, 2011",
+                "Инигибирование биокоррозии стали композициями на основе растительного сырья, 2012",
+                "Механизм ингибирующего действия производных триазолоазепинилацетонитрила в кислой хлоридной среде, 2012",
+                "Многофункциональные ингибиторы коррозии углеродистой стали на основе бромидов имидазоазепиния, 2013",
+                "ВПЛИВ ЧЕТВЕРТИННИХ СОЛЕЙ АМОНІЮ НА РІСТ СУЛЬФАТВІДНОВЛЮВАЛЬНИХ БАКТЕРІЙ, 2015",
+                "Квантово-хімічні показники як критерій ефективності четвертинних солей з антимікробними властивостями за інгібування біокорозії сталі, 2015",
+                "Quantum-chemical characteristics as a criterion of efficiency of quaternary salts with antibacterial properties for the inhibition of biocorrosion of steel, 2016",
+                "Похідні піримідину та їх інгібувальна дія на корозію маловуглецевої сталі, 2016",
+                "Інгібітор корозії сталі для середовищ з бактеріальною сульфатредукцією, 2016",
+                "Biocorrosion of metal sewage treatment constructions and its inhibition with pyridinium chlorides, 2017",
+                "Quaternary pyridinium salts as inhibitors of mild steel biocorrosion, 2017",
+                "Self-assembled monoterpenoid phenol as vapor phase atmospheric corrosion inhibitor of carbon steel, 2017",
+                "A comprehensive study of grape pomace extract and its active components as effective vapour phase corrosion inhibitor of mild steel, 2018",
+                "Aminooxoethylpyridinium chlorides as inhibitors of mild steel acid corrosion, 2018",
+                "Microbiological composition of the biofilm on the metal surfaces of sewage constructions, 2018",
+                "Peculiarities of the effect of secondary amines with cyclic substituents on microbial steel corrosion, 2018",
+                "Peculiarities Of Triazoloazepinium Bromides Effect On Steel Microbial Corrosion, 2018",
+                "The effect of triazoloazepine bromide with biocidal activity on microbial copper corrosion, 2018",
+                "The inhibitory effect of imidazo [1, 2-a] azepinium bromides on corrosion of carbon steel in hydrochloric acid medium, 2018",
+                "A comprehensive study of grape pomace extract and its active components as effective vapour phase corrosion inhibitor of mild steel, 2018",
+                "Aminooxoethylpyridinium chlorides as inhibitors of mild steel acid corrosion, 2018",
+                "Microbiological composition of the biofilm on the metal surfaces of sewage constructions, 2018",
+                "Peculiarities of the effect of secondary amines with cyclic substituents on microbial steel corrosion, 2018",
+                "Peculiarities Of Triazoloazepinium Bromides Effect On Steel Microbial Corrosion, 2018",
+                "The effect of triazoloazepine bromide with biocidal activity on microbial copper corrosion, 2018",
+                "The inhibitory effect of imidazo [1, 2-a] azepinium bromides on corrosion of carbon steel in hydrochloric acid medium, 2018",
+                "Corrosion of copper in a medium of bacteria sulfate reduction proceeding, 2019",
+                "Food additives as factor of corrosion of mild steel in neutral solution, 2019",
+                "Seasonal Dynamics of Bacteria in Corrosive Biofilms Formed on the Surface of Wastewater Treatment Plants, 2019",
+                "Corrosion of copper in a medium of bacteria sulfate reduction proceeding, 2019",
+                "Food additives as factor of corrosion of mild steel in neutral solution, 2019",
+                "Seasonal Dynamics of Bacteria in Corrosive Biofilms Formed on the Surface of Wastewater Treatment Plants, 2019",
+                "Effect of protonation on anticorrosion properties of polyheteroatomic inhibitors of acid corrosion of steel, 2020",
+                "The production of silver nanoparticles and their effect on sulfate reducing bacteria under steel microbial corrosion, 2020",
+                "Effect of protonation on anticorrosion properties of polyheteroatomic inhibitors of acid corrosion of steel, 2020",
+                "The production of silver nanoparticles and their effect on sulfate reducing bacteria under steel microbial corrosion, 2020",
+                "Dynamics of protective layers formation during steel inhibition by sulfanilamide in hydrochloric acid solutions with different pH, 2021",
+                "Dynamics of protective layers formation during steel inhibition by sulfanilamide in hydrochloric acid solutions with different pH, 2021",
+                "КВАНТОВО-ХІМІЧНА ХАРАКТЕРИСТИКА НОВИХ БІОЛОГІЧНО АКТИВНИХ ПОХІДНИХ [1, 2, 4] ТРИАЗОЛО [1, 5-А] ПІРИМІДИНУ, 2022",
+                "КВАНТОВО-ХІМІЧНА ХАРАКТЕРИСТИКА НОВИХ БІОЛОГІЧНО АКТИВНИХ ПОХІДНИХ [1, 2, 4] ТРИАЗОЛО [1, 5-А] ПІРИМІДИНУ, 2022",
+                "Inhibition of Steel Microbial Corrosion by Quaternary Salts of Imidazoquinolinium, 2023",
+                "THE EFFICIENCY OF PROTECTION OF STRUCTURAL STEEL BY CATIONIC INHIBITOR UNDER CONDITIONS OF CORROSION WITH BACTERIAL SULFATE REDUCTION, 2023",
+                "Inhibition of Steel Microbial Corrosion by Quaternary Salts of Imidazoquinolinium, 2023",
+                "THE EFFICIENCY OF PROTECTION OF STRUCTURAL STEEL BY CATIONIC INHIBITOR UNDER CONDITIONS OF CORROSION WITH BACTERIAL SULFATE REDUCTION, 2023",
+                "Nanocomposite complex ZnO in combination with a triazoloazepinium derivative for inhibition of microbial steel corrosion, 2024",
+                "Nanocomposite complex ZnO in combination with a triazoloazepinium derivative for inhibition of microbial steel corrosion, 2024",
+                "ХІМІЧНИЙ СКЛАД МАЦЕРАТУ НА ОСНОВІ БУРШТИНУ: МЕТОДИ АНАЛІЗУ ТА РЕЗУЛЬТАТИ, 2024",
+                "ХІМІЧНИЙ СКЛАД МАЦЕРАТУ НА ОСНОВІ БУРШТИНУ: МЕТОДИ АНАЛІЗУ ТА РЕЗУЛЬТАТИ, 2024",
+                "КВАНТОВО-ХІМІЧНІ ДЕСКРИПТОРИ ТА БІОЛОГІЧНА АКТИВНІСТЬ 2-АМІНО-4-АРИЛ-1,3-ОКСАЗОЛІВ, 2025",
+                "КВАНТОВО-ХІМІЧНІ ДЕСКРИПТОРИ ТА БІОЛОГІЧНА АКТИВНІСТЬ 2-АМІНО-4-АРИЛ-1,3-ОКСАЗОЛІВ, 2025",
+                "ПИТНА ВОДОПРОВІДНА ВОДА МІСТА ЧЕРНІГІВ ТА ЇЇ ЯКІСТЬ, 2025",
+                "ПИТНА ВОДОПРОВІДНА ВОДА МІСТА ЧЕРНІГІВ ТА ЇЇ ЯКІСТЬ, 2025"
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                researchList.appendChild(li);
+            });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Біокорозійна активність грунтів Чернігівської області та Карпат, 2007",
+                "Синтез, биоцидные и противокоррозионные свойства производных триазолоазепинилацетонитрила, 2010",
+                "Синтез бромідів триазолоазепінію--багатофункціональних інгібіторів корозії металу, 2010",
+                "Биокоррозия стали в присутствии органических полютантов, 2011",
+                "Влияние пестицидов Раундап и Зенкор на биокоррозию стали, 2011",
+                "КОРРОЗИОННОЕ ПОВЕДЕНИЕ МЕДИ И ХРОМИРОВАННОЙ СТАЛИ В СРЕДЕ С БАКТЕРИАЛЬНОЙ СУЛЬФАТРЕДУКЦИЕЙ, 2011",
+                "Коррозионное поведение меди и хромированной стали в среде с бактериальной сульфатредукцией (тези), 2011",
+                "Оценка агрессивности почв Черниговской области, 2011",
+                "Пестициди як фактор біокорозії сталі у грунті, 2011",
+                "Противокоррозионные свойства некоторых фармакологических препаратов, 2011",
+                "Інгібувальна дія азотовмісних гетероциклів під час корозії маловуглецевої сталі, 2011",
+                "Разработка многофункциональных ингибиторов коррозии металлоконструкций, 2012",
+                "Інгібітори мікробної корозії сталі на рослинній сировині, 2012",
+                "Розроблення інгібіторів мікробної та кислотної корозії вуглецевих сталей на основі нітрогеновмісних гетероциклічних сполук: автореферат, 2013",
+                "Противокоррозионные свойства norfloxacin и etamsylate, 2013",
+                "Вплив пестицидів на розвиток корозійно активних бактерій феросфери та формування біоплівки на поверхні маловуглецевої сталі, 2013",
+                "МОДЕЛЮВАННЯ ІНГІБІТОРІВ МІКРОБНОЇ КОРОЗІЇ СТАЛІ ШЛЯХОМ КОМБІНУВАННЯ СТРУКТУРНИХ ФРАГМЕНТІВ У СКЛАДІ ПОЛІЦИКЛІЧНИХ НІТРОГЕНОВМІСНИХ СПОЛУК, 2015",
+                "Ингибирующее действие сока aloe vera и композиций на его основе при коррозии малоуглеродистой стали, 2015",
+                "Синтез четвертинних солей піридинію з протимікробною активністю по відношенню до сульфатвідновлювальних бактерій, 2016",
+                "Синтез похідних 5-хлор-3-алкілтіадіазолу та їх протикорозійні властивості, 2016",
+                "Синтез і протикорозійна активність хлоридів піридинію, 2016",
+                "Інгібітори корозії для захисту технологічного обладнання в середовищах з бактеріальною сульфат редукцією, 2016",
+                "Оцінка агресивності біоплівок сформованих на металевих поверхнях очисних споруд та шляхи забезпечення найдіності роботи обладнання, 2016",
+                "Food additives as factor of microbial corrosion of steel, 2017",
+                "Практикум з комп'ютерної хімії, 2017",
+                "Підготовка учителів хімії освітнього ступеня магістр у контексті проблеми підвищення якості ос віти та європейської інтеграції, 2017",
+                "Особливості впливу деяких солей піридинію на мікробну корозію низьковуглецевої сталі, 2018",
+                "Дослідження протикорозійних властивостей ізопропанольного екстракту жмиха винограду (Vitis vinifera), 2018",
+                "Методика розв'язування розрахункових задач з хімії, 2018",
+                "Практикум з фізичної хімії, 2018",
+                "Прогнозування біологічної активності сполук з застосуванням комп′ютерних програм, 2018",
+                "Методика розв'язування розрахункових задач з хімії, 2018",
+                "Практикум з фізичної хімії, 2018",
+                "Прогнозування біологічної активності сполук з застосуванням комп′ютерних програм, 2018",
+                "Методичні рекомендації до підготовки та написання курсових та кваліфікаційних робіт (проектів) по кафедрі хімії, технологій та фармації, 2019",
+                "Формування компетентності використання інформаційно-комунікаційних технологій при підготовці майбутніх учителів хімії, 2019",
+                "Цифрові вимірювальні комплекси та їх застосування при навчанні учнів природничим дисциплінам, 2019",
+                "Методичні рекомендації до підготовки та написання курсових та кваліфікаційних робіт (проектів) по кафедрі хімії, технологій та фармації, 2019",
+                "Формування компетентності використання інформаційно-комунікаційних технологій при підготовці майбутніх учителів хімії, 2019",
+                "Цифрові вимірювальні комплекси та їх застосування при навчанні учнів природничим дисциплінам, 2019",
+                "Peculiarities Of Inhibitory Action Of Secondary Amines On Structural Steel Corrosion In Acid Chloride Medium, 2020",
+                "Peculiarities Of Inhibitory Action Of Secondary Amines On Structural Steel Corrosion In Acid Chloride Medium, 2020",
+                "Вивчення дисципліни статистичні методи в хімії з використанням платформи Moodle, 2021",
+                "Квантово-хімічна характеристика нових біологічно активних сполук ряду 5-циклопропіл-1,3-оксазолу, 2021",
+                "Вивчення дисципліни статистичні методи в хімії з використанням платформи Moodle, 2021",
+                "Квантово-хімічна характеристика нових біологічно активних сполук ряду 5-циклопропіл-1,3-оксазолу, 2021",
+                "Використання освітнього сервісу GOOGLE СLASSROOM для організації контролю знань учнів з хімії, 2022",
+                "Застосування електрохімічних методів для комплексного дослідження мікробної корозії сталі, 2022",
+                "Використання освітнього сервісу GOOGLE СLASSROOM для організації контролю знань учнів з хімії, 2022",
+                "Застосування електрохімічних методів для комплексного дослідження мікробної корозії сталі, 2022",
+                "НАНОЧАСТИНКИ МЕТАЛІВ ТА МОЖЛИВІСТЬ ЇХ ЗАСТОСУВАННЯ ДЛЯ ПОПЕРЕДЖЕННЯ МІКРОБНОЇ КОРОЗІЇ CТАЛІ, 2023",
+                "Олімпіадні задачі з хімії, 2023",
+                "Інформаційні системи і технології, 2023",
+                "Інгібування мікробної корозії сталі нанокомпозитними комплексами на основі наночастинок, 2023",
+                "Ймовірність взаємодії 3-r-6-(4-амінофеніл)-7h-[1, 2, 4] триазоло [3, 4][1, 3, 4] тіадіазинів з деякими білками в якості лігандів, 2023",
+                "НАНОЧАСТИНКИ МЕТАЛІВ ТА МОЖЛИВІСТЬ ЇХ ЗАСТОСУВАННЯ ДЛЯ ПОПЕРЕДЖЕННЯ МІКРОБНОЇ КОРОЗІЇ CТАЛІ, 2023",
+                "Олімпіадні задачі з хімії, 2023",
+                "Інформаційні системи і технології, 2023",
+                "Інгібування мікробної корозії сталі нанокомпозитними комплексами на основі наночастинок, 2023",
+                "Ймовірність взаємодії 3-r-6-(4-амінофеніл)-7h-[1, 2, 4] триазоло [3, 4][1, 3, 4] тіадіазинів з деякими білками в якості лігандів, 2023",
+                "Використання платформи віртуальних симуляцій Labster при вивченні хімії у 10 класі (профільний рівень), 2024",
+                "Інгібітори корозії на основі нанопрепаратів для збереження металофонду, 2024",
+                "Використання платформи віртуальних симуляцій Labster при вивченні хімії у 10 класі (профільний рівень), 2024",
+                "Інгібітори корозії на основі нанопрепаратів для збереження металофонду, 2024"
+
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+            { text: "chnpu.edu.ua.Кафедра фізики та астрономії. ", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-fiziki-ta-astronomiji" },
+            { text: "Olena Bondar (n.d.). ORCID profile.", url:"https://orcid.org/0000-0002-9612-0546"}
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

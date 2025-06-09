@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Ілляшенко Гурія Юхимович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Ілляшенко Гурія Юхимович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Ilyashenko.webp";
+            document.getElementById("person-name").textContent = "Ілляшенко Гурія Юхимович";
+            document.getElementById("person-years").textContent = "1959-1977";
+            document.getElementById("person-description").textContent = "Фізик, методист і педагог – завідувача кафедри фізики";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Гурій Юхимович Ілляшенко народився 28 листопада 1921 р. у селі Алтинівка Кролевецького району Сумської області в родині лікаря. Після закінчення Алтинівської середньої школи вступив на фізико-математичний відділ Глухівського вчительського інституту (1939).</p>
+            <p>У 1939 р. був призваний на військову службу, де обіймав посаду командира артилерійського відділення. Брав участь у бойових діях проти німецько-фашистських загарбників на Західному та Калінінському фронтах. У серпні 1943 р. отримав важке поранення руки, внаслідок чого став інвалідом війни. За військові заслуги нагороджений орденом Вітчизняної війни та медалями.</p>
+            <p>У 1944 р. вступив на фізико-математичний факультет Київського державного педагогічного інституту, згодом перевівся на фізичний факультет Київського державного університету ім. Т.Г. Шевченка, який закінчив у 1949 р. з кваліфікацією "викладач фізики".</p>
+            <p>Професійну діяльність розпочав як викладач фізики Конотопського учительського інституту (1949-1959). У 1957-1959 рр. очолював кафедру фізики Глухівського педінституту. З 1959 р. працював у Чернігівському державному педагогічному інституті ім. Т.Г. Шевченка, де до 1977 р. обіймав посаду завідувача кафедри методики фізики і ТЗН, а згодом до 1985 р. – професора цієї кафедри.</p>
+            <p>У 1958 р. захистив кандидатську дисертацію на тему "Виробничі екскурсії в середній школі та методика їх проведення". У 1979 р. отримав наукове звання професора.</p>
+            <p>Гурій Юхимович Ілляшенко помер 1 березня 2012 р.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Автор понад 40 наукових праць", 
+            "Присвоєно наукове звання професора (1979 р.)",
+            "Керував школою юних фізиків при педінституті",
+            "Очолював фізичний факультет університету наукових і педагогічних знань учителів м. Чернігова",
+            "Був організатором та активним учасником науково-методичних конференцій і семінарів"].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                researchList.appendChild(li);
+            });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Написав монографію «Навчальні екскурсії з фізики»", 
+            "Опублікував 5 посібників для вчителів і учнів загальноосвітніх шкіл",
+            "Створив 6 посібників для студентів педінститутів", 
+            "Посібник «Основи термодинаміки і молекулярної фізики» включено до програми факультативних занять з фізики",
+            "Виробничі екскурсії в курсі фізики середньої школи: Посібник для вчителів 1959 р.",
+            "Навчальні екскурсії з фізики 1968 р."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Борисенко О.С., Цюпа А.М., Лук`яненко Е.В. Професор Г.Ю. Ілляшенко – відомий український фізик, методист та педагог, завідувач кафедри методики фізики Чернігівського педагогічного інституту -5 с.", url: "../doc/ілляшенко.pdf" },
+                { text: "В. С. Кролевець, В. У. Чорноусб В. Ф. Шморгун. Півстоліття невтомної праці - 51 с.", url: "../doc/півстоліття невтомної праці.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

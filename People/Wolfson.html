@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Вольфенсон Олександр Семенович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Вольфенсон Олександр Семенович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/no_photo.png";
+            document.getElementById("person-name").textContent = "Вольфенсон Олександр Семенович";
+            document.getElementById("person-years").textContent = "";
+            document.getElementById("person-description").textContent = "Кандидат фізико-математичних наук";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Олександр Семенович Вольфенсон - кандидат фізико-математичних наук. Його професійна кар'єра була тісно пов’язана з педагогікою, зокрема з методикою викладання природничих наук. Свою викладацьку діяльність він розпочав у Варшавському навчальному окрузі — адміністративно-освітній одиниці Російської імперії, що опікувалась освітніми закладами у відповідному регіоні.</p>
+            <p>Серед важливих етапів його кар’єри — викладання у Суворовському кадетському корпусі, де він не лише навчав, але й формував майбутніх офіцерів, що вимагало особливого педагогічного підходу. Важливою віхою стала також його робота в Чернігівському учительському інституті (ЧУІ), де він сприяв підготовці педагогічних кадрів. Хоча точні дати його перебування у ЧУІ потребують уточнення, його діяльність там свідчить про високий рівень довіри до нього як до фахівця.</p>
+            <p>У 1910 році Вольфенсон був обраний головою Варшавського педагогічного товариства — однієї з провідних організацій, що об’єднували освітян регіону. Це обрання стало підтвердженням його авторитету серед педагогічної спільноти. Протягом 1911–1912 років він очолював Варшавський гурток викладачів фізики й математики, активно працюючи над удосконаленням методики викладання природничих дисциплін.</p>
+            <p>З 1912 по 1915 рік Вольфенсон викладав фізику на спеціалізованих курсах при Варшавському інституті для підготовки вчителів середніх навчальних закладів. Ця робота мала безпосередній вплив на підвищення кваліфікації педагогів, зміцнення методичних основ шкільної науки, і ще раз підкреслила його експертність у викладанні фізики.</p>`;
+
+             // Дослідження
+             const researchList = document.getElementById("research-list");
+            ["Його науково-педагогічна праця відзначалась активною участю в професійних з’їздах, публікацією методичних матеріалів, а також співпрацею з фаховими журналами. Вольфенсон публікувався у виданнях “Вѣсник” і “Физическое образование”, де ділився власними методичними напрацюваннями."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                researchList.appendChild(li);
+            });
+
+           // Публікації
+           const publicationsList = document.getElementById("publications-list");
+            ["Труды Варшавского съезда преподавателей 1902 года", "Труды летних курсов для учителей физики и математики 1911 года", 
+            "Труды 1-го Всероссийского съезда преподавателей физики 1914 года"].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

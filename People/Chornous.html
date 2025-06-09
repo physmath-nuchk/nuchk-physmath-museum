@@ -1,0 +1,153 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Чорноус Василь Устинович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../employees.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Чорноус Василь Устинович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../employees.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Chornous.webp";
+            document.getElementById("person-name").textContent = "Чорноус Василь Устинович";
+            document.getElementById("person-years").textContent = "1933-1936";
+            document.getElementById("person-description").textContent = "Кандидат історичних наук";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p><strong>Чорноус Василь Устинович</strong> (14 липня 1917, с. Вовчок, Чернігівська обл. — 21 вересня 1989, м. Чернігів) — український історик, педагог, кандидат історичних наук (1961), доцент (1965), директор Чернігівського учительського інституту (1953–1955).</p>
+
+            <h3>Освіта та початок професійної діяльності</h3>
+            <p>У 1933 р. вступив на фізико-математичний факультет Чернігівського учительського інституту, який закінчив у 1936 р. Працював учителем фізики та математики у школі № 40 м. Новоград-Волинський. У 1939–1945 рр. проходив військову службу, працював у політичному відділі військово-авіаційної школи.</p>
+
+            <h3>Діяльність у сфері освіти та партійної роботи</h3>
+            <p>Після війни закінчив Харківську партійну школу (1946), працював у Чернігівському обкомі КП(б)У. У 1953 р. закінчив ВПШ при ЦК КПРС у Москві та був призначений директором Чернігівського учительського інституту.</p>
+
+            <h3>Керівництво інститутом (1953–1955)</h3>
+            <p>За 16 місяців керівництва Чорноус покращив матеріально-технічну базу інституту, налагодив підготовку викладачів до захисту кандидатських дисертацій, ініціював реорганізацію інституту в педагогічний. Завдяки його зусиллям зросла кількість викладачів з науковими ступенями, а у 1954 р. інститут отримав статус педінституту.</p>
+
+             <h3>Наукова кар'єра</h3>
+            <p>У 1959–1960 рр. навчався в аспірантурі при Інституті підвищення кваліфікації викладачів суспільних наук (КДУ ім. Т. Шевченка). У 1961 р. захистив кандидатську дисертацію на тему "Діяльність Чернігівської губернської організації КП України в 1919–1920 рр.". У 1965 р. отримав вчене звання доцента.</p>
+            <h3>Відзнаки</h3>
+            <p>Нагороджений 6 медалями та грамотою Президії Верховної Ради УРСР (1966).</p>
+
+            <h3>Пам’ять</h3>
+            <p>Похований у м. Чернігів. Його діяльність стала визначальною для переходу Чернігівського учительського інституту в статус педагогічного вишу. Наукова та організаційна праця Чорноуса заклала основу модернізації освітньої системи регіону.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["«Партійна організація Чернігівщини в перші роки Радянської влади» (1958)",
+                "«Півстоліття невтомної праці. Нарис історії ЧДПІ ім. Т.Г.Шевченка» (1966, у співавторстві).",
+                "«Нариси історії Чернігівської обласної партійної організації» (1970; співавтор ІІІ та ІХ розділів, член редколегії; 2-ге вид. — 1980).",
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Історія Чернігівського національного педагогічного університету в біографіях його керівників. – К. : СПД Чалчинська Н.В., 2016. – 416 с. ", url: "doc/Моно. Історія ЧНПУ.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

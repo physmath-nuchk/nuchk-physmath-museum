@@ -1,0 +1,149 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Пустовий Олег Миколайович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Пустовий Олег Миколайович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Pustovy.webp";
+            document.getElementById("person-name").textContent = "Пустовий Олег Миколайович";
+            document.getElementById("person-years").textContent = "2001";
+            document.getElementById("person-description").textContent = "Викладач кафедри фізики та астрономії";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>З 2001 року працює у Чернігівському національному педагогічному університеті імені Т.Г. Шевченка. У 1990 році закінчив фізико-технічний факультет Харківського державного університету імені О.М. Горького, здобувши кваліфікацію інженера-фізика.</p>
+            <p>На даний час працює над захистом кандидатської дисертації на тему: “Формування знань студентів про нові матеріали та нові технології в курсі загальної фізики педагогічного університету”.</p>
+            <p>У викладацькій діяльності охоплює широкий спектр навчальних дисциплін, зокрема: теоретичну фізику (класична механіка, механіка суцільних середовищ, електродинаміка), методику навчання фізики у вищій школі, астрономію, астрофізику, фізику напівпровідників, загальний курс фізики (електрика, оптика, атомна фізика), фізику твердого тіла та інші.</p>
+            <p>Сфера наукових інтересів охоплює проблематику методики викладання фізики у вищій школі, зокрема формування знань студентів про нові матеріали і технології, а також фізичні дослідження у галузях надпровідності, катодного розпилення металів та фізики рідких кристалів.</p>
+            <p>Має понад 40 науково-методичних публікацій, є автором двох навчальних посібників.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["«Дослідження перебігу фазових переходів у рідких кристалах за зміною їх текстур» / Гриценко М. І., Кучеєв С. І., Пустовий О. М. — 2006",
+                "«Демонстрація розсіювання світла з використанням електрооптичного ефекту динамічного розсіювання в нематичному рідкому кристалі в курсі загальної фізики» / Гриценко М. І., Кучеєв С. І., Пустовий О. М. — 2006",
+                "«Вивчення інтерференції поляризованого світла в нематичному рідкому кристалі в умовах лабораторного практикума» / Гриценко М. І., Кучеєв С. І., Пустовий О. М. — 2005",
+                "«Вивчення фазових станів рідких кристалів за зміною їх текстур» / Гриценко М. І., Кучеєв С. І., Пустовий О. М. — 2004",
+                "«Вивчення рідких кристалів у розділах “Термодинаміка” та “Оптика” курсу загальної фізики вищої школи» / Гриценко М. І., Пустовий О. М. — 2007",
+                "«Вивчення електрооптичних властивостей рідких кристалів у курсі загальної фізики вищої школи. S-ефект» / Гриценко М. І., Кучеєв С. І., Пустовий О. М. — 2006"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["«Цифрове телебачення та радіо в сучасному загальноосвітньому курсі фізики» / Пустовий О. М., Степура І. В. — 2015",
+                "«До проблеми викладу основ цифрового радіо та телебачення в курсі загальної фізики вищої школи» / Пустовий О. М., Степура І. В. — 2015",
+                "«Теленавчання природничо-математичного циклу: історія, досвід, перспективи» / Пустовий О. М., Степура І. В. — 2016",
+                "«Історія створення теорії груп та її застосування у фізиці твердого тіла» / Бендик А. А., Пустовий О. М., Шепета О. М. — 2017",
+                "«STEM орієнтоване навчання фізики» / Меняйлов С. М., Подласов С. О., Чижська Т. Г., Пустовий О. М. — 2019",
+                "«Про підходи до вивчення цифрової фотографії і відеозйомки для потреб різних систем освіти» / Дятлов Ю. В., Пустовий О. М. — 2021",
+                "«Історія та деякі технічні підвалини розвитку відеотехнологій» / Пустовий О. М., Степура І. В. — Житомир: Вид-во ЖДУ ім. Івана Франка, 2021. — 139 с."
+
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Кафедра фізики та астрономії ЧНПУ ім. Т. Г. Шевченка.", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-fiziki-ta-astronomiji" },
+                { text: "Пустовий Олег Миколайович – наукові праці // Електронний репозитарій ЧНПУ.", url: "http://erpub.chnpu.edu.ua:8080/jspui/" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

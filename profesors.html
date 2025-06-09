@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Меню навігації для сайту фізико-математичного факультету Чернігівського колегіуму. Пошук по всіх сторінках і датах.">
+    <meta name="keywords"
+        content="фізико-математичний факультет, Чернігів, факультет, пошук, декани, професори, співробітники, випускники, фотоархів, документи">
+    <meta name="author" content="Olena Lebid">
+    <link rel="icon" href="img/icons/person.png" type="person">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-..." crossorigin="anonymous">
+    <title>Викладачі</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="card.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,318;1,318&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+    <script src="list.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- Підключення шапки профілю, меню та пошукової форми -->
+    <div id="header-container"></div>
+    <div class="container py-4">
+
+        <!-- Кнопки для мобільних пристроїв -->
+        <div class="floating-buttons d-lg-none position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
+            <button class="button-icon menu-toggle" aria-label="Меню" onclick="toggleMenu()">☰</button>
+            <button class="button-icon search-toggle" aria-label="Пошук" onclick="toggleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Пошукова стрічка для великих екранів -->
+        <div class="search-container d-none d-lg-block mb-4">
+            <div class="input-group position-relative">
+                <input type="text" id="desktop-search-input" class="form-control" placeholder="Введіть запит...">
+                <button id="desktop-clear-search" class="clear-input" aria-label="Очистити">✕</button>
+                <button id="desktop-search-button" class="custom-button">Пошук</button>
+            </div>
+            <div id="desktop-search-results" class="mt-3"></div>
+        </div>
+
+        <!-- Оверлей пошуку для мобільних -->
+        <div id="search-overlay" class="search-overlay">
+            <div class="search-box">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Пошук</h5>
+                    <button type="button" class="btn-close" aria-label="Закрити" onclick="closeSearch()"></button>
+                </div>
+                <div class="search-input-wrapper mb-2">
+                    <input type="text" id="mobile-search-input" class="form-control" placeholder="Пошук...">
+                    <button id="mobile-clear-search" class="clear-input" aria-label="Очистити поле пошуку">✕</button>
+                </div>
+                <div id="mobile-search-button" class="btn btn-primary w-100 mb-2">Шукати</div>
+                <div id="mobile-search-results" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Artwork Gallery Container -->
+    <div id="ucl-card-container"></div>
+    <div class="footer" id="footer-container"></div>
+    <!-- Кнопка "Нагору" -->
+    <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+</body>
+<script>
+    // Функція для підсвічування активного пункту меню
+    function highlightActiveMenuItem() {
+        // Отримуємо поточний шлях сторінки
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'fiz-mat.html'; // якщо порожній шлях, вважаємо це головною
+
+        console.log("Поточна сторінка:", currentPage); // для діагностики
+
+        // Перебираємо всі пункти меню (як у повному, так і в мобільному меню)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            const href = item.getAttribute('href');
+            console.log("Перевірка пункту меню:", href); // для діагностики
+
+            // Перевіряємо, чи є це посилання активним
+            if (href === currentPage ||
+                currentPage.includes(href) ||
+                (currentPage === "" && href === "profesors.html")) {
+                // Додаємо клас "active" до відповідного пункту меню
+                item.classList.add('active');
+                console.log("Знайдено активний пункт:", href); // для діагностики
+            }
+        });
+    }
+    // Додаємо стилі для модального вікна
+    function addModalStyles() {
+        const style = document.createElement("style");
+        style.textContent = `
+        .ucl-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .ucl-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .ucl-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+        
+        .ucl-modal-message {
+            font-size: 16px;
+            color: #444;
+            margin: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+        document.head.appendChild(style);
+    }
+
+    // Функція для створення модального вікна
+    function createModalWindow() {
+        // Перевіряємо, чи вже існує модальне вікно
+        if (document.getElementById("ucl-no-info-modal")) {
+            return;
+        }
+
+        // Створюємо модальне вікно
+        const modal = document.createElement("div");
+        modal.id = "ucl-no-info-modal";
+        modal.className = "ucl-modal";
+        modal.style.display = "none";
+        modal.innerHTML = `
+        <div class="ucl-modal-content">
+            <h3 class="ucl-modal-title">Інформація відсутня</h3>
+            <p class="ucl-modal-message">На жаль, детальна інформація про <span id="ucl-person-name"></span> відсутня в базі даних.</p>
+        </div>
+    `;
+
+        // Додаємо обробник кліку для закриття модального вікна
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                hideNoInfoModal();
+            }
+        });
+
+        document.body.appendChild(modal);
+    }
+
+    // Функція для показу модального вікна
+    function showNoInfoModal(personName) {
+        // Перевіряємо чи існує модальне вікно, якщо ні - створюємо
+        if (!document.getElementById("ucl-no-info-modal")) {
+            // Додаємо стилі, якщо вони ще не додані
+            addModalStyles();
+            // Створюємо вікно
+            createModalWindow();
+        }
+
+        const modal = document.getElementById("ucl-no-info-modal");
+        const nameElement = document.getElementById("ucl-person-name");
+
+        // Встановлюємо ім'я особи
+        nameElement.textContent = personName;
+
+        // Показуємо модальне вікно
+        modal.style.display = "flex";
+
+        // Встановлюємо автоматичне закриття через 3 секунди
+        setTimeout(function () {
+            hideNoInfoModal();
+        }, 3000);
+    }
+
+    // Функція для закриття модального вікна
+    function hideNoInfoModal() {
+        const modal = document.getElementById("ucl-no-info-modal");
+
+        if (!modal) return;
+
+        modal.style.animation = "fadeOut 0.3s";
+
+        // Чекаємо завершення анімації
+        setTimeout(function () {
+            modal.style.display = "none";
+            modal.style.animation = "";
+        }, 300);
+    }
+
+    // Функція для створення карток професорів з можливістю прокручування опису
+    function createCards() {
+        const container = document.getElementById("ucl-card-container");
+
+        // Перевіряємо чи існує контейнер
+        if (!container) {
+            console.error("Контейнер для карток не знайдено");
+            return;
+        }
+
+        const cards = [
+            {
+                link: 'People/Adamenko.html',
+                img: 'img/no_photo.png',
+                alt: 'Адаменко Валентин Васильович',
+                cardId: 'Adamenko',
+                date: { year1: "1920", year2: "1929" },
+                name: { line1: 'Адаменко Валентин Васильович' },
+                description: 'Викладав курси введення в аналіз, спеціальний курс фізики, диференціальне числення, фізику на всіх курсах, методику математики та методику фізики.'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Панізовский',
+                cardId: 'Panizovsky',
+                date: { year1: "1920", year2: "1929" },
+                name: { line1: 'Панізовский' },
+                description: 'Доктор філологічних наук, спеціалізація – українська мова та література, автор численних праць.'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Голубчик',
+                cardId: 'Golubchik',
+                date: { year1: "1920", year2: "1929" },
+                name: { line1: 'Голубчик' },
+                description: 'Доктор філологічних наук, спеціалізація – українська мова та література, автор численних праць.'
+            },
+            {
+                link: 'People/Budarin.html',
+                img: "img/no_photo.png",
+                alt: 'Бударинін Вукола Петрович',
+                cardId: 'Budarin',
+                date: { year1: "1920", year2: "1930" },
+                name: { line1: 'Бударинін Вукола Петрович' },
+                description: 'Учитель математики й фізики Чернігівської жіночої гімназії'
+            },
+            {
+                link: 'People/Alexandrov.html',
+                img: 'img/портрети/Alexandrov.webp',
+                alt: 'Александров Павло Сергійович',
+                cardId: 'Alexandrov',
+                date: { year1: "1920", year2: "1930" },
+                name: { line1: 'Александров Павло Сергійович' },
+                description: 'Доктор філологічних наук, спеціалізація – українська мова та література, автор численних праць.'
+            },
+            {
+                link: 'People/Wolfson.html',
+                img: 'img/no_photo.png',
+                alt: 'Вольфенсон Олександр Семенович',
+                cardId: 'Wolfson',
+                date: { year1: "1920", year2: "1930" },
+                name: { line1: 'Вольфенсон Олександр Семенович' },
+                description: 'Видатний викладач 20-х років, нагороджений за досягнення у галузі педагогіки, спеціалізація – історія культури.'
+            },
+            {
+                link: 'People/Evensen.html',
+                img: 'img/no_photo.png',
+                alt: 'Івенсен Сергій Миколайович',
+                cardId: 'Evensen',
+                date: { year1: "1920", year2: "1930" },
+                name: { line1: 'Івенсен Сергій Миколайович' },
+                description: ' Секретар фізико-математичного відділення Чернігівського ІНО.'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Гончаров С.Л.',
+                cardId: 'Goncharov',
+                date: { year1: "1922", year2: "?" },
+                name: { line1: 'Гончаров С.Л.' },
+                description: 'Випускник Чернігівського учительського інституту 1922 р., викладач фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Ганжа Микола Микитович',
+                cardId: 'Ganja',
+                date: { year1: "1922", year2: "1928" },
+                name: { line1: 'Ганжа Микола Микитович' },
+                description: 'Викладач математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Фурсенко Володимир Борисович',
+                cardId: 'Fursenko',
+                date: { year1: "1925", year2: "1929" },
+                name: { line1: 'Фурсенко Володимир Борисович' },
+                description: 'Випускник 1924 р. фізико-математичного факультету, доктор математичних наук, професор, у 1925-1929 роках викладає математику у ЧІНО'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Дмитров В.С.',
+                cardId: 'Dmitrov',
+                date: { year1: "1934", year2: "?" },
+                name: { line1: 'Дмитров В.С.' },
+                description: "Звідувач кафедри фізики"
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Буліч М.П.',
+                cardId: 'Bulich',
+                date: { year1: "1934", year2: "?" },
+                name: { line1: 'Буліч М.П.' },
+                description: 'Викладач фізики, завідувач кафедри фізики перед війною'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Харичків М.Г.',
+                cardId: 'Kharychkiv',
+                date: { year1: "1934", year2: "?" },
+                name: { line1: 'Харичків М.Г.' },
+                description: ''
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Степко І.І.',
+                cardId: 'Stepko',
+                date: { year1: "1934", year2: "?" },
+                name: { line1: 'Степко І.І.' },
+                description: 'Викладач кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/портрети/Khatyukov.webp',
+                alt: 'Хатюков С.А',
+                cardId: 'Khatyukov',
+                date: { year1: "1946", year2: "1959" },
+                name: { line1: 'Хатюков С.А' },
+                description: 'Завідувач кафедри фізики і математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Атрощенко Ф.Г',
+                cardId: 'Atroshchenko',
+                date: { year1: "1950", year2: "1951" },
+                name: { line1: 'Атрощенко Ф.Г' },
+                description: 'Старший викладач кафедри фізик'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Бовда М.І. ',
+                cardId: 'Bovda',
+                date: { year1: "1950", year2: "1951" },
+                name: { line1: 'Бовда М.І.' },
+                description: 'Доцент, кандидат наук, кафедра математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Масол К.І.',
+                cardId: 'Masol',
+                date: { year1: "1950", year2: "?" },
+                name: { line1: 'Масол К.І.' },
+                description: 'Викладач кафедри математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Рохленко Р.М.',
+                cardId: 'Rokhlenko',
+                date: { year1: "1950", year2: "1960" },
+                name: { line1: 'Рохленко Р.М.' },
+                description: 'Кафедра фізики, доцент'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Щербина І.М.',
+                cardId: 'Shcherbyna',
+                date: { year1: "1950", year2: "1971" },
+                name: { line1: 'Щербина І.М.' },
+                description: 'Старший викладач кафедри фізики, спеціаліст з методики викладання фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Глушков П.М.',
+                cardId: 'Glushkov',
+                date: { year1: "1959", year2: "?" },
+                name: { line1: 'Глушков П.М.' },
+                description: 'Доцент, завідуючий кафедрою елементарної математики і методики математики'
+            },
+            {
+                link: 'People/Ilyashenko.html',
+                img: 'img/портрети/Ilyashenko.webp',
+                alt: 'Ілляшенко Гурія Юхимович',
+                cardId: 'Ilyashenko',
+                date: { year1: "1959", year2: "1977" },
+                name: { line1: 'Ілляшенко Гурія Юхимович' },
+                description: 'Доцент, завідувач кафедрою фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Вивальнюк Лука Миколайович',
+                cardId: 'Vivalnyuk',
+                date: { year1: "1959", year2: "1962" },
+                name: { line1: 'Вивальнюк Лука Миколайович' },
+                description: 'Дцент, кандидат фізико-математичних наук, завідувач кафедри вищої математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Кислуха М.І.',
+                cardId: 'Kisluha',
+                date: { year1: "1960", year2: "?" },
+                name: { line1: 'Кислуха М.І.' },
+                description: 'Кандидат фізико-математичних наук '
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Клиго К.І. ',
+                cardId: 'Kligo',
+                date: { year1: "1960", year2: "?" },
+                name: { line1: 'Клиго К.І. ' },
+                description: 'Кандидат наук кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Максимов В.Ф.',
+                cardId: 'Maksimov',
+                date: { year1: "1960", year2: "?" },
+                name: { line1: 'Максимов В.Ф.' },
+                description: 'Кандидат фізико-математичних наук, входив до кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Рязанов О.І. ',
+                cardId: 'Ryazanov',
+                date: { year1: "1960", year2: "?" },
+                name: { line1: 'Рязанов О.І.' },
+                description: 'Викладач кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Черкасова В.А.',
+                cardId: 'Cherkasova',
+                date: { year1: "1960", year2: "?" },
+                name: { line1: 'Черкасова В.А.' },
+                description: 'Викладач кафедри фізики'
+            },
+            {
+                link: 'People/Boletus.html',
+                img: 'img/портрети/Boletus.webp',
+                alt: 'Боровик Василь Наумович ',
+                cardId: 'Boletus',
+                date: { year1: "1962", year2: "2007" },
+                name: { line1: 'Боровик Василь Наумович ' },
+                description: 'Науковець, педагог і методист. Професор методики викладання математики'
+            },
+            {
+                link: 'People/Gritsenko.html',
+                img: 'img/портрети/Gritsenko.webp',
+                alt: 'Гриценко Микола Іванович',
+                cardId: 'Hrytsenko',
+                date: { year1: "1964", year2: "" },
+                name: { line1: 'Гриценко Микола Іванович' },
+                description: 'Доктор фізико-математичний наук, професор'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Євдокименко І.П.',
+                cardId: 'Evdokimenko',
+                date: { year1: "1965", year2: "1966" },
+                name: { line1: 'Євдокименко І.П.' },
+                description: 'Завідувач кафедри загальнотехнічних дисциплін'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Пономаренко В.І. ',
+                cardId: 'Ponomarenko',
+                date: { year1: "1966", year2: "?" },
+                name: { line1: 'Пономаренко В.І.' },
+                description: 'Випускник фізичного факультету Київського державного університету (1950), кандидат наук,ипускник фізичного факультету Київського державного університету (1950), кандидат наук, фізик-теоретик, доцент '
+            },
+            {
+                link: 'People/Skubenko.html',
+                img: 'img/портрети/Skubenko.webp',
+                alt: 'Скубенко Анатолій Федорович',
+                cardId: 'Skubenko',
+                date: { year1: "1967", year2: "1976" },
+                name: { line1: 'Скубенко Анатолій Федорович' },
+                description: 'Кандидат фізико-математичних наук, доцент А'
+            },
+            {
+                link: 'People/Savchenko.html',
+                img: 'img/портрети/Savchenko.webp',
+                alt: 'Савченко Віталій Федорович',
+                cardId: 'Savchenko',
+                date: { year1: "1969", year2: "1998" },
+                name: { line1: 'Савченко Віталій Федорович' },
+                description: 'Доцент, завідувач кафедри методики викладання математики і фізики, кандидат педагогічних наук, професор'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Медвідь А.Г.',
+                cardId: 'Medvid',
+                date: { year1: "1970", year2: "1971" },
+                name: { line1: 'Медвідь А.Г.' },
+                description: 'Входив до математичного факультету, 1970 р. - кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Білан С.А.',
+                cardId: 'Bilan',
+                date: { year1: "1971", year2: "?" },
+                name: { line1: 'Білан С.А.' },
+                description: 'Кандидат фізико-математичних наук, доцен'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Коновець М.К.',
+                cardId: 'Konovets',
+                date: { year1: "1974", year2: "?" },
+                name: { line1: 'Коновець М.К.' },
+                description: 'Кандидат фізико-математичних наук'
+            },
+            {
+                link: 'People/Koval.html',
+                img: 'img/портрети/Koval.webp',
+                alt: 'Коваль Іван Кирилович',
+                cardId: 'Koval',
+                date: { year1: "1975", year2: "2008" },
+                name: { line1: 'Коваль Іван Кирилович' },
+                description: 'Астроном, доктор фізико-математичних наук'
+            },
+            {
+                link: 'People/Moshel.html',
+                img: 'img/портрети/Moshel.webp',
+                alt: 'Мошель Микола Васильович',
+                cardId: 'Moschel',
+                date: { year1: "1976", year2: "2002" },
+                name: { line1: 'Мошель Микола Васильович' },
+                description: 'Фізик, доктортехнічних наук, професор'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Середній А.П.',
+                cardId: 'Seredniy',
+                date: { year1: "1976", year2: "1982" },
+                name: { line1: 'Середній А.П.' },
+                description: 'кандидат фізико-математичних наук (1970), завідувач кафедри загальної фізики (1976-1982), проректор з наукової роботи'
+            },
+            {
+                link: 'People/Penkov.html',
+                img: 'img/портрети/Penkov.webp',
+                alt: 'Пеньков Андрій Вікторович',
+                cardId: 'Penkov',
+                date: { year1: "1980", year2: "2016" },
+                name: { line1: 'Пеньков Андрій Вікторович ' },
+                description: 'Педагог, кандидат педагогічних наук, доцент кафедри інформатики і обчислювальної техніки'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Панченко Л.Б.',
+                cardId: 'Panchenko',
+                date: { year1: "1983", year2: "1988" },
+                name: { line1: 'Панченко Л.Б.' },
+                description: 'Викладач кафедри фізики'
+            },
+            {
+                link: 'People/Sitnikov.html',
+                img: 'img/no_photo.png',
+                alt: 'Ситников О.П.',
+                cardId: 'Sitnikov',
+                date: { year1: "1988", year2: "?" },
+                name: { line1: 'Ситников О.П.' },
+                description: 'Викладач кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Цибуля В.В.',
+                cardId: 'Tsybulya',
+                date: { year1: "1988", year2: "?" },
+                name: { line1: 'Цибуля В.В.' },
+                description: 'Dикладач кафедри фізики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Рогоза О.В.',
+                cardId: 'Rogoza',
+                date: { year1: "1989", year2: "" },
+                name: { line1: 'Рогоза О.В.' },
+                description: 'Кандидат наук, викладач кафедри фізики'
+            },
+            {
+                link: 'People/Dedovich.html',
+                img: 'img/портрети/Dedovich.webp',
+                alt: 'Дедович Валентин Миколайович',
+                cardId: 'Dedovich',
+                date: { year1: "1990", year2: "" },
+                name: { line1: 'Дедович Валентин Миколайович' },
+                description: 'Кандидат педагогічних наук, доцент.'
+            },
+            {
+                link: '',
+                img: 'img/портрети/Faizullina.webp',
+                alt: 'Файзулліна Тетяна Володимирівна',
+                cardId: 'Faizullina',
+                date: { year1: "1993", year2: "" },
+                name: { line1: 'Файзулліна Тетяна Володимирівна' },
+                description: 'Інженер ІІ категорії'
+            },
+            {
+                link: 'People/Horoshko.html',
+                img: 'img/портрети/Horoshko.webp',
+                alt: 'Горошко Юрій Васильович',
+                cardId: 'Horoshko',
+                date: { year1: "1996", year2: "" },
+                name: { line1: 'Горошко Юрій Васильович' },
+                description: 'Доктор педагогічних наук, професор, професор кафедри.'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Кобко Лідія Микитівна',
+                cardId: 'Koblo',
+                date: { year1: "?", year2: "?" },
+                name: { line1: 'Кобко Лідія Микитівна3' },
+                description: 'Викладач вищої математики'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Кобзар О.О.',
+                cardId: 'Kobzar',
+                date: { year1: "?", year2: "?" },
+                name: { line1: 'Кобзар О.О.' },
+                description: 'Кандидат фізико-математичних наук, доцент'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Лисов Р.А.',
+                cardId: 'Lysov',
+                date: { year1: "?", year2: "?" },
+                name: { line1: 'Лисов Р.А.' },
+                description: 'Викладач теоретичної фізики)'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Марченко В.В.',
+                cardId: 'Marchenko',
+                date: { year1: "?", year2: "?" },
+                name: { line1: 'Марченко В.В.' },
+                description: 'Доцент, кандидати фізико-математичних наук, займався астрофізичною тематикою'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Штепа М.І.',
+                cardId: 'Steppe',
+                date: { year1: "?", year2: "?" },
+                name: { line1: 'Штепа М.І.' },
+                description: 'Випускник Чернівецького університету 1947 р., кандидат наук, доцент, прийшов на кафедру фізики в 1963 р., очолював фізичний факультет (1970-1980)'
+            },
+            {
+                link: 'People/Dyatlov.html',
+                img: 'img/портрети/Dyatlov.webp',
+                alt: 'Дятлов Юрій Володимирович',
+                cardId: 'Dyatlov',
+                date: { year1: "2001", year2: "" },
+                name: { line1: 'Дятлов Юрій Володимирович' },
+                description: 'Кандидат історичних наук, доцент'
+            },
+            {
+                link: 'People/Pustovy.html',
+                img: '/img/портрети/Pustovy.webp',
+                alt: 'Пустовий Олег Миколайович',
+                cardId: 'Pustovyy',
+                date: { year1: "2001", year2: "" },
+                name: { line1: 'Пустовий Олег Миколайович' },
+                description: 'Викладач кафедри фізики та астрономії.'
+            },
+            {
+                link: 'People/Tsibko.html',
+                img: 'img/портрети/Tsibko.webp',
+                alt: 'Цибко Ганна Юхимівна',
+                cardId: 'Tsibko',
+                date: { year1: "2005", year2: "" },
+                name: { line1: 'Цибко Ганна Юхимівна' },
+                description: 'Кандидат педагогічних наук, доцент, доцент кафедри'
+            },
+            {
+                link: 'People/Pryadko.html',
+                img: 'img/портрети/Pryadko.webp',
+                alt: 'Прядко Наталія Олександрівна',
+                cardId: 'Pryadko',
+                date: { year1: "2006", year2: "" },
+                name: { line1: 'Прядко Наталія Олександрівна' },
+                description: 'Кандидат педагогічних наук, доцент, доцент кафедри, заступник декана факультету'
+            },
+            {
+                link: 'People/Bondar.html',
+                img: 'img/портрети/Bondar.webp',
+                alt: 'Бондар Олена Сергіївна',
+                cardId: 'Bondar',
+                date: { year1: "2012", year2: "" },
+                name: { line1: 'Бондар Олена Сергіївна' },
+                description: 'Кандидат технічних наук, доцент.'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Сущов О.Б.',
+                cardId: 'Suszczow',
+                date: { year1: "2014", year2: "?" },
+                name: { line1: 'Сущов О.Б.' },
+                description: 'Старший викладач фізики, астрофізична тематика'
+            },
+            {
+                link: '',
+                img: 'img/no_photo.png',
+                alt: 'Шепета О.М.',
+                cardId: 'Whisper',
+                date: { year1: "2014", year2: "" },
+                name: { line1: 'Шепета О.М.' },
+                description: 'Доцент, викладч кафедри фізики'
+            },
+            {
+                link: 'People/Vinnychenko.html',
+                img: 'img/портрети/Vinnychenko.webp',
+                alt: 'Вінниченко Євгеній Федорович',
+                cardId: 'Vinnychenko',
+                date: { year1: "2015", year2: "" },
+                name: { line1: 'Вінниченко Євгеній Федорович' },
+                description: 'Кандидат педагогічних наук, доцент, доцент кафедри, заступник декана факультету.'
+            },
+            {
+                link: 'People/Kostyuchenko.html',
+                img: 'img/портрети/Kostyuchenko.webp',
+                alt: 'Костюченко Андрій Олександрович',
+                cardId: 'Kostyuchenko',
+                date: { year1: "2014", year2: "" },
+                name: { line1: 'Костюченко Андрій Олександрович' },
+                description: 'Кандидат педагогічних наук, старший викладач кафедри.'
+            }
+        ];
+        // Створення карток
+        cards.forEach(card => {
+            const a = document.createElement("a");
+            // Встановлюємо посилання тільки якщо воно не пусте
+            if (card.link) {
+                a.href = card.link;
+                a.setAttribute("data-has-link", "true");
+                a.setAttribute("data-link", card.link);
+            } else {
+                a.href = "#";
+                a.setAttribute("data-has-link", "false");
+            }
+            // Встановлюємо id для елемента, якщо є cardId
+            if (card.cardId) {
+                a.id = card.cardId;
+            }
+
+            a.className = "ucl-card-link";
+            a.setAttribute("data-person-name", card.name.line1);
+            a.setAttribute("aria-label", `Details about ${card.name.line1}`);
+            a.innerHTML = `
+            <div class="ucl-card">
+                <div class="ucl-image-container">
+                    <img src="${card.img}" alt="${card.alt}" />
+                </div>
+                <div class="ucl-date-bar" aria-label="Years active">
+                    <span class="ucl-year-left">${card.date.year1}</span>
+                    <span class="ucl-dash"></span>
+                    <span class="ucl-year-right">${card.date.year2}</span>
+                </div>
+                <div class="ucl-info">
+                    <h class="ucl-info-title">
+                        ${card.name.line1}
+                    </h>
+                </div>
+                <hr class="ucl-divider" />
+                <div class="ucl-description-container">
+                    <div class="ucl-description" aria-label="Event location and description">
+                        ${card.description}
+                    </div>
+                </div>
+            </div>
+        `;
+
+            // Додаємо обробник кліку
+            a.addEventListener("click", function (event) {
+                if (this.getAttribute("data-has-link") === "true") {
+                    // Якщо є посилання - переходимо за ним (це стандартна поведінка)
+                    return;
+                } else {
+                    // Якщо посилання немає - показуємо модальне вікно
+                    event.preventDefault();
+                    showNoInfoModal(this.getAttribute("data-person-name"));
+                }
+            });
+
+            container.appendChild(a);
+        });
+
+        document.querySelectorAll('.ucl-description').forEach(desc => {
+    // Вимикаємо стандартну прокрутку
+    desc.addEventListener('wheel', function (event) {
+        event.preventDefault(); // блокує стандартну прокрутку
+        event.stopPropagation(); // запобігає бульбашці
+
+        // Керуємо прокруткою вручну з меншою швидкістю
+        const scrollSpeed = 0.2; // зменшити значення для повільнішої прокрутки
+        desc.scrollTop += event.deltaY * scrollSpeed;
+    }, { passive: false }); // важливо: passive повинно бути false, щоб працювало preventDefault
+
+});
+
+    }
+
+    // Функція для перевірки необхідності прокрутки
+    function checkForScrolling() {
+        document.querySelectorAll('.ucl-description-container').forEach(container => {
+            const description = container.querySelector('.ucl-description');
+
+            // Перевіряємо, чи контент більший за контейнер
+            if (description && description.scrollHeight > container.clientHeight) {
+                container.classList.add('needs-scroll');
+            } else if (description) {
+                container.classList.remove('needs-scroll');
+            }
+        });
+    }
+
+    // Ініціалізація при завантаженні сторінки
+    document.addEventListener('DOMContentLoaded', function () {
+        // Додаємо стилі для модального вікна
+        addModalStyles();
+
+        // Створюємо модальне вікно
+        createModalWindow();
+
+        // Створюємо картки
+        createCards();
+
+        // Запускаємо перевірку прокрутки
+        checkForScrolling();
+    });
+
+    // Додаємо слухач подій на зміну розміру вікна
+    window.addEventListener('resize', checkForScrolling);
+</script>
+<script src="main_script.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
+    crossorigin="anonymous"></script>
+
+</html>

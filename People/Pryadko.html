@@ -1,0 +1,169 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Прядко Наталія Олександрівна</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Прядко Наталія Олександрівна";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Pryadko.webp";
+            document.getElementById("person-name").textContent = "Прядко Наталія Олександрівна";
+            document.getElementById("person-years").textContent = "2006";
+            document.getElementById("person-description").textContent = "Кандидат педагогічних наук, доцент, доцент кафедри, заступник декана факультету";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Чернігівський державний педагогічний інститут імені Т. Г. Шевченка, спеціальність "Математика, інформатика та обчислювальна техніка".
+            Диплом ЛЗ № 005639 від 20 червня 1994 р.</p>
+            <p>Кандидат психологічних наук.
+            Кандидатська дисертація на тему: "Формування психологічної готовності вчителя до регуляції взаємин між старшокласниками", спеціальність 19.00.07 – педагогічна та вікова психологія.
+            Захищена у спеціалізованій вченій раді Д 26.053.10 при Національному педагогічному університеті імені М. П. Драгоманова.
+            Диплом ДК № 034312 від 11 травня 2006 р.</p>
+            <p>Доцент кафедри педагогіки, психології та методик навчання фізики й математики.
+            Атестат доцента 12ДЦ № 042607 від 28 квітня 2015 р.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Формування психологічної готовності вчителя до регуляції взаємин між старшокласниками. 2006",
+                "Основні психологічні аспекти проблеми розвитку дитячої обдарованості. 2007",
+                "Проблема розвитку дитячої обдарованості. Передумови її виявлення і формування при навчанні фізики молодшого школяра. 2007",
+                "Елементи профорієнтаційної роботи з учнями на уроках фізики в старших класах. 2008",
+                "Порівняльний підхід в оцінці студентами особистості викладача. 2012",
+                "Формування математичної грамотності учнів старшої школи. 2013",
+                "Особливості оцінки студентами особистості викладача. 2013",
+                "Особливості професійної самооцінки особистості. 2014",
+                "Психолого-педагогічні аспекти проблеми формування пізнавальних інтересів підлітків до вивчення фізики. 2014",
+                "Мотивація досягнення як детермінанта успіху в професійній діяльності особистості. 2015",
+                "Психологічні особливості оцінювання особистості педагога. 2016",
+                "Психологічні особливості уявлень сучасної молоді про гендерні відмінності лідерських якостей. 2018",
+                "Impact of changes in teaching computer science in ukrainian schools on forming the content of computer science courses at non-core specialties in universities. 2019",
+                "Трансформація взаємин між учнями в умовах дистанційного навчання. 2022",
+                "Соціальна тривожність як чинник успішності у навчанні студентів. 2023",
+                "Роль гендерних стеротипів у професійному самовизначенні. 2024"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Проблема психологічної готовності вчителя до професійної діяльності. 2004",
+                "Вісник Чернігівського державного педагогічного університету імені Т.Г. Шевченка. 2007",
+                "Діти - батьки - суспільство: взаємодія та інтеграція. 2007",
+                "Актуальні проблеми психології. 2007",
+                "Вісник Чернігівського державного педагогічного університету. 2008",
+                "Вісник Чернігівського національного педагогічного університету. 2012",
+                "Вісник Чернігівського національного педагогічного університету. 2013",
+                "Вісник національного педагогічного університету імені Т.Г. Шевченка. 2015",
+                "Збірник наукових праць Кам'янець-Подільського національного університету. 2016",
+                "Science Review. 2018",
+                "E-Learning and STEM Education. 2019",
+                "Єдність навчання і наукових досліджень – головний принцип університету. 2022",
+                "Світ наукових досліджень. 2023",
+                "Наука ІІІ тисячоліття: пошуки, проблеми, перспективи розвитку. 2024"]
+                .forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    publicationsList.appendChild(li);
+                });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+            { text: "chnpu.edu.ua.Кафедра інформатики і обчислювальної техніки.", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-informatiki-i-obchislyuvalnoji-tekhniki" },
+                { text: "Nataliia Priadko. (n.d.). ORCID profile.", url:"https://orcid.org/0000-0003-0686-6449"},
+                { text: "Google Академія. Наталія Прядко.", url: "https://scholar.google.com.ua/citations?user=h-Gx8Q0AAAAJ&hl=uk" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

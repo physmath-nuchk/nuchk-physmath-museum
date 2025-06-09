@@ -1,0 +1,104 @@
+.container {
+    max-width: 900px;
+}
+
+.container {
+    padding: 30px 0;
+}
+
+.professor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.professor-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.professor-date {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 5px 0;
+    font-style: italic;
+}
+
+.professor-card:hover {
+    transform: scale(1.05);
+}
+
+#person-name,
+#person-years,
+#person-description {
+    cursor: default;
+    /* або cursor: text; якщо хочете текстовий курсор */
+}
+
+.professor-card img {
+    max-width: 150px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 80px;
+    border-bottom-right-radius: 80px;
+}
+
+.portrait-wrapper {
+    margin-top: 20px;
+    /* Відступ зверху */
+    margin-bottom: 35px;
+    /* Відступ знизу */
+    cursor: default;
+}
+
+/* Рамка */
+.border-overlay {
+    width: 246px;
+    height: 315px;
+    top: -35px;
+    left: -21px;
+    pointer-events: none;
+}
+
+.professor-card h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+
+.professor-info {
+    font-size: 16px;
+    color: #777;
+    margin-top: 10px;
+    font-family: 'Noto Serif', serif;
+}
+
+.professor-card .content {
+    flex-grow: 1;
+    text-align: left;
+    padding-right: 20px;
+}
+
+/* Стилі для кнопок-закладок */
+.professor-card::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    background-color: #b78458;
+    border-radius: 50%;
+}

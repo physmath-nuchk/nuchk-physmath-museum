@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Адаменко Валентин Васильович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../decanu.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../decanu.html')) {
+                sessionStorage.setItem('previousPage', '../decanu.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Адаменко Валентин Васильович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/no_photo.png";
+            document.getElementById("person-name").textContent = "Адаменко Валентин Васильович";
+            document.getElementById("person-years").textContent = "1920-1929";
+            document.getElementById("person-description").textContent = "Викладав курси введення в аналіз,  спеціальний курс фізики, диференціальне числення, фізику на всіх курсах, методику математики та методику фізики.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Валентин Васильович Адаменко народився у 1891 році в місті Хороль Полтавської губернії в родині вчителя. Початкову освіту здобував вдома та в народній школі. З 1903 року навчався у Глухівській гімназії Чернігівської губернії, а з 1909 року – у Чернігові, де у 1911 році закінчив середню школу. Того ж року вступив до Київського університету, який завершив у 1917 році за математичним відділенням, спеціалізуючись на фізиці.</p>
+            <p>Після закінчення університету викладав у середній школі Чернігова, а з 1920 року став викладачем Чернігівського Інституту народної освіти (ІНО). У цьому закладі викладав математику, фізику, а також методику викладання цих дисциплін. У 1929 році обійняв посаду декана кафедри фізики в Донецькому гірничому інституті імені Артема (м. Сталіно), залишивши Чернігівський ІНО.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації (приховати, якщо не потрібно)
+            const publicationsSection = document.getElementById("publications");
+            const publicationsLink = document.querySelector('nav a[href="#publications"]');
+            const showPublications = false; // Змінити на true, щоб відображати
+
+            if (!showPublications) {
+                publicationsSection.style.display = "none";  // Приховує сам розділ
+                publicationsLink.style.display = "none";     // Приховує пункт меню
+            }
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" },
+                { text: "ЦДАВО України. P-166, оп.2, спр. 42, арк. 0", url: "https://e-resource.tsdavo.gov.ua/files/81575/" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

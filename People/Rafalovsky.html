@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Рафаловський Едуард Віталійович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../decanu.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../decanu.html')) {
+                sessionStorage.setItem('previousPage', '../decanu.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Рафаловський Едуард Віталійович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../decanu.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Rafalovsky.webp";
+            document.getElementById("person-name").textContent = "Рафаловський Едуард Віталійович";
+            document.getElementById("person-years").textContent = "1982-2007";
+            document.getElementById("person-description").textContent = "";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Розпочав кар'єру в Чернігівському педагогічному інституті як керівник педагогічної практики.</p>
+            <p>Захистив дисертацію та здобув ступінь кандидата педагогічних наук.</p>
+            <p>Отримав звання доцента.</p>
+            <p>1969 році був призначений Е.В.Рафаловський як заступник декана математичного факультету.</p>
+            <p>1 вересною 1982 року обійняв посад декан математичного факультету й пробув на ній 25 років.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none"; // Приховує пункт меню
+            } else {
+                // Якщо потрібно, додаємо елементи досліджень
+                const researchData = ["Дослідження 1", "Дослідження 2", "Дослідження 3"];
+                const researchList = document.getElementById("research-list");
+
+                researchData.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+            };
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Рафаловський, Е. В. Щаслива підказка : [постать Віктора Миколайовича Костарчука] / Е.В.Рафаловський // Вісник Чернігівського державного педагогічного університету.Серія: Педагогічні науки / Чернігів.держ.пед.ун - т ім.Т.Г.Шевченка. – Чернігів, 2009. – Вип. 60. – С. 20."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" },
+                { text: "Віктор Миколайович Костарчук(1918-2001)", url: "../doc/чіно за часів воробйова.pdf" },
+                { text: "Анатолій Боровик, Микола Боровик ІСТОРІЯ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ У БІОГРАФІЯХ ЙОГО КЕРІВНИКІВ - 416 с.", url: "http://erpub.chnpu.edu.ua:8080/jspui/handle/123456789/3226" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

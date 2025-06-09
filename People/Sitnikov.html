@@ -1,0 +1,140 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Ситников О.П.</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Ситников О.П.";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/no_photo.png";
+            document.getElementById("person-name").textContent = "Ситников О.П.";
+            document.getElementById("person-years").textContent = "1988 - ?";
+            document.getElementById("person-description").textContent = "Викладач кафедри фізики";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Викладач кафедри фізики</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Ситников О. П. Розв’язання фізичних задач за допомогою функціональних математичних моделей для студентів інженерних спеціальностей / О. П. Ситников. // Вісник Чернігівського національного педагогічного університету. Педагогічні науки. - 2013. - Вип. 108.2.",
+                "Ситніков О. П. Неперервна освіта – парадигма XXI століття / О. П. Ситніков // Вісник післядипломної освіти. - 2015. - Вип. 15. - С. 134-143.",
+                "Ситников О. П. Компетентнісний підхід у системі неперервної професійної освіти / О. П. Ситников // Вісник післядипломної освіти. Серія : Педагогічні науки. - 2016. - Вип. 2. - С. 112-122",
+                "Ситников О. П. Лабораторний практикум по вивченню фізичних властивостей води для студентів інженерних спеціальностей / О. П. Ситников // Вісник Чернігівського національного педагогічного університету. Серія : Педагогічні науки. - 2016. - Вип. 137. - С. 280-283.",
+                "Ситников О. П. Вивчення механізму електричної провідності нематичних рідких кристалів у навчальному експерименті / О. П. Ситников // Вісник Чернігівського національного педагогічного університету. Серія : Педагогічні науки. - 2017. - Вип. 144. - С. 294-297. ",
+                "Ситников О. П. Керована електричним полем фазова рідкокристалічна дифракційна ґратка / О. П. Ситников // Вісник Чернігівського національного педагогічного університету. Серія : Педагогічні науки. - 2018. - Вип. 151(2). - С. 64-68.",
+                "Ситников О. П. Вивчення подвійного променезаломлення за допомогою рідких кристалів у навчальному експерименті / О. П. Ситников // Вісник Чернігівського національного педагогічного університету. Серія : Педагогічні науки. - 2018. - Вип. 153. - С. 130-134."
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "М.І. Гриценко та Ю.В. Дятлов. Кафедра фізики та астрономії. -15 c. -12 c.", url: "../doc/Кафедра фізики та астрономії.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>`

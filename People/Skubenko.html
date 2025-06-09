@@ -1,0 +1,136 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Скубенко Анатолій Федорович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Скубенко Анатолій Федорович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Skubenko.webp";
+            document.getElementById("person-name").textContent = "Скубенко Анатолій Федорович";
+            document.getElementById("person-years").textContent = "1967 - 1976";
+            document.getElementById("person-description").textContent = "Кандидат фізико-математичних наук, доцент ";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Скубенко Анатолій Федорович — український фізик, дослідник у галузі фізики напівпровідників, педагог. У 1955 році розпочав роботу на кафедрі фізики, а з 1967 по 1976 роки очолював кафедру загальної фізики.</p>
+            <p>Його наукова діяльність була зосереджена переважно на дослідженні фізичних властивостей напівпровідникових матеріалів. Як керівник кафедри, він активно сприяв розвитку наукових кадрів: з його ініціативи випускники кафедри були направлені на аспірантуру та стажування до науково-дослідних установ Академії наук України. Серед них: М.І. Акименко (1963), С.Ф. Терехова (1964), М.К. Коновець</p>
+            <p>У 1960 році кафедра входила до складу кафедри загальнотехнічних дисциплін, а у 1971 році стала частиною фізичного факультету.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Білий М.У., Скубенко А.Ф. Загальна фізика. Оптика / М.У. Білий, А.Ф. Скубенко. — Київ : Вища школа, 1987. — 374 с."].forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                publicationsList.appendChild(li);
+            });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "Кафедра фізики та астрономії: історичний нарис /М.І. Гриценко, Ю.В. Дятлов; Відп. редактор А.В. Шморгун.- Чернігів: ЧНПУ імені Т.Г. Шевченка, 2016. - 28 с.", url: "../doc/Кафедра фізики та астрономії.pdf" },
+                { text: "Боровик А.М., Боровик М.А.Б 83 Історія Чернігівського національного педагогічного університету в біографіях його керівників. – К. : СПД Чалчинська Н.В., 2016. – 416 с.", url: "../doc/Моно. Історія ЧНПУ.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

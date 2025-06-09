@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Карханін Іван Олексійович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../decanu.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../decanu.html')) {
+                sessionStorage.setItem('previousPage', '../decanu.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Карханін Іван Олексійович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../decanu.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Karkhanin.webp";
+            document.getElementById("person-name").textContent = "Карханін Іван Олексійович";
+            document.getElementById("person-years").textContent = "1917-1920";
+            document.getElementById("person-description").textContent = "Очолював кафедру математики, був деканом факультету та завідувачем навчальною частиною.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>Народився 26 серпня 1886 року в сім’ї фельдфебеля 9-ї артилерійської бригади. Дитинство провів поблизу міста Старобільськ. У 1898–1906 роках навчався в Старобільській гімназії, яку закінчив із золотою медаллю. У 1906 році вступив на фізико-математичний факультет Харківського університету, де у 1911 році здобув вищу освіту та отримав диплом.</p>
+            <p>Того ж року розпочав викладацьку діяльність як учитель математики, фізики й космографії у Сосницькій жіночій гімназії на Чернігівщині. У 1917 році був переведений до хлопчачої та жіночої гімназії у Кобеляках на Полтавщині. Після реорганізації шкільної системи в 1920 році продовжив працювати у трудовій школі №3 у Кобеляках як учитель математики й фізики, водночас викладав на короткотермінових курсах і очолював шкільний підвідділ у місцевому відділі народної освіти.</p>
+            <p>У 1922 році переїхав до Охтирки (нині Сумська область), де працював викладачем математики та фізики в Педагогічних курсах і обіймав посаду політичного завідувача навчальною частиною. У 1926–1931 роках продовжував викладацьку та адміністративну роботу в Охтирському педагогічному технікумі як завідувач навчальної частини та викладач математики.</p>
+            <p>З 1931 по 1941 рік очолював кафедру математики Чернігівського педагогічного інституту. Обіймав також посади декана факультету та завідувача навчальною частиною. Через тимчасове закриття математичного факультету Чернігівського інституту під час Другої світової війни, у 1944 році викладав математичні дисципліни в Ніжинському державному педагогічному інституті.</p>`;
+
+            // Дослідження (приховати, якщо не потрібно)
+            const researchSection = document.getElementById("research");
+            const researchLink = document.querySelector('nav a[href="#research"]');
+            const showResearch = false; // Змінити на true, щоб відображати
+
+            if (!showResearch) {
+                researchSection.style.display = "none";
+                researchLink.style.display = "none";
+            }
+
+            // Публікації (приховати, якщо не потрібно)
+            const publicationsSection = document.getElementById("publications");
+            const publicationsLink = document.querySelector('nav a[href="#publications"]');
+            const showPublications = false; // Змінити на true, щоб відображати
+
+            if (!showPublications) {
+                publicationsSection.style.display = "none";  // Приховує сам розділ
+                publicationsLink.style.display = "none";     // Приховує пункт меню
+            };
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+                { text: "ЦДАВО України. P-166, оп.12, спр. 3159, арк. 0", url: "https://e-resource.tsdavo.gov.ua/file-viewer/109716#file-2520812" },
+                { text: "Анатолій Боровик, Микола Боровик ІСТОРІЯ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ У БІОГРАФІЯХ ЙОГО КЕРІВНИКІВ - 416 с.", url: "http://erpub.chnpu.edu.ua:8080/jspui/handle/123456789/3226" },
+                { text: "ІСТОРІЯ СТАНОВЛЕННЯ ТА НАУКОВО-ПЕДАГОГІЧНА СПАДЩИНА КАФЕДР МАТЕМАТИЧНИХ ДИСЦИПЛІН НАЦІОНАЛЬНОГО УНІВЕРСИТЕТУ «ЧЕРНІГІВСЬКИЙ КОЛЕГІУМ» ІМЕНІ Т. Г. ШЕВЧЕНКА. Нак М.М., Філон Л.Г., Богдан С.В. - 9 с.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/826/1/%d0%a3%d0%94%d0%9a%20378%20%d0%86%d1%81%d1%82%d0%be%d1%80%d1%96%d1%8f%20%d0%ba%d0%b0%d1%84%d0%b5%d0%b4%d1%80.pdf" },
+                { text: "Філон Л.Г., Ященко О.М.МАЛОВІДОМІ СТОРІНКИ ІСТОРІЇ ФІЗИКОМАТЕМАТИЧНОГО ФАКУЛЬТЕТУ ЧЕРНІГІВСЬКОГО НАЦІОНАЛЬНОГО ПЕДАГОГІЧНОГО УНІВЕРСИТЕТУ ІМЕНІ Т.Г.ШЕВЧЕНКА (1916-1941 РОКИ) - 12 c.", url: "https://epub.chnpu.edu.ua/jspui/bitstream/123456789/827/1/Stattya_Filon_L_2__014.pdf" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

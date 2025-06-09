@@ -1,0 +1,106 @@
+.document-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #c1bab4;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.document-item:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.document-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.document-description {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.document-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.document-info p {
+    margin: 0;
+}
+
+.action-btns {
+    margin-top: 10px;
+}
+
+.view-btn,
+.download-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #0d4e28;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.view-btn:hover,
+.download-btn:hover {
+    background-color: #b5994c;
+}
+
+/* Пошукова стрічка */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: 92%;
+    padding-right: 30px;
+}
+
+/*Документи розташовані 3 в ряд*/
+.document-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .document-list {
+        display: block;
+    }
+
+    .container.py-4 {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+/* Планшети вертикальні */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .document-list {
+        display: block;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .view-btn,
+    .download-btn {
+        padding: 6px 13px;
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .document-list {
+        display: block;
+    }
+}

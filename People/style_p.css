@@ -1,0 +1,151 @@
+/* Загальні стилі для тіла */
+body {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    background-color: #D9D2CC;
+}
+
+.disabled-link {
+    pointer-events: none;
+    /* Заборона натискання */
+    color: gray;
+    /* Сірий текст для неактивних пунктів */
+    text-decoration: none;
+    /* Заборона підкреслення */
+}
+
+h1 {
+    font-size: 50px;
+    padding: 2%;
+    color: #e8dcb6;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+/* Змінити колір посилань на більш нейтральний (наприклад, сірий) та зберегти підкреслення */
+a {
+    color: #555;
+    /* Колір посилання (можна змінити на будь-який бажаний нейтральний колір) */
+    text-decoration: underline;
+    /* Підкреслення посилання */
+}
+
+a:hover {
+    color: #333;
+    /* Колір при наведенні */
+}
+
+nav {
+    padding: 10px 0;
+    border-top: 4px solid #ffffff;
+}
+
+nav a {
+
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    display: inline-block;
+    position: relative;
+}
+
+/* Стилі для навігації меню в контексті Біографії, Досліджень, Публікацій та Нагород */
+nav.navbar {
+    text-align: center;
+    background-color: transparent;
+    /* Прозорий фон */
+    padding: 0;
+}
+
+nav a.nav-links {
+    color: #000;
+    /* Чорний колір тексту */
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 22px;
+    display: inline-block;
+    transition: color 0.3s ease;
+    /* Легкий перехід для зміни кольору */
+}
+
+nav a.nav-links:hover {
+    color: #435d4e;
+    /* Підсвічування на наведення */
+}
+
+nav a.active {
+    font-weight: bold;
+    color: #435d4e;
+    /* Підсвічування активного пункту */
+}
+
+/* Стилі для верхнього меню (факультети, студенти і т.д.) */
+header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 0 0;
+    background-color: #28392F;
+    color: #e9e5e1;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: #435d4e;
+}
+
+/* Стилі для секцій */
+section {
+    border-top: 1px solid #f2f2f2;
+    padding: 20px 0;
+    cursor: pointer;
+}
+
+section h2 {
+    font-size: 28px;
+    color: #222;
+}
+
+section p,
+section ul {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+/* Стилі для навігації в головному контенті */
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    display: inline-block;
+    position: relative;
+}
+
+nav a.active {
+    font-weight: bold;
+    background-color: #e9e5e1;
+    color: #435d4e;
+    border-bottom: 2px solid #ffffff;
+}
+
+nav a:not(:last-child) {
+    border-right: 2px solid #ffffff;
+}
+
+nav a:hover {
+    background-color: #e9e5e1;
+    color: #435d4e;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+@media (min-width: 300px) and (max-width: 991.98px) {
+    section {
+        padding: 20px 30px;
+    }
+}

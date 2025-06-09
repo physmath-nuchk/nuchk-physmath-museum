@@ -1,0 +1,173 @@
+`
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/icons/profile.png" type="person">
+    <title>Вінниченко Євгеній Федорович</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_p.css">
+    <link rel="stylesheet" href="card.css">
+</head>
+
+<body>
+    <!-- Контейнер для шаблону -->
+    <div id="template-container"></div>
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("template-container");
+
+            // Завантаження шаблону
+            fetch("name.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    container.innerHTML = html;
+
+                    // Викликаємо функцію для наповнення сторінки, якщо така є
+                    if (typeof populatePage === "function") {
+                        populatePage();
+                    }
+
+                    // Вказуємо активний пункт меню вручну
+                    const activeMenu = "../profesors.html"; // Шлях для активного пункту меню
+
+                    // Перебираємо всі посилання меню
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        // Перевіряємо, чи співпадає href з активним меню
+                        if (item.getAttribute('href') === activeMenu) {
+                            // Додаємо клас "active" до відповідного пункту меню
+                            item.classList.add('active');
+                        }
+                    });
+                })
+                .catch((error) => console.error("Помилка завантаження шаблону:", error));
+        });
+
+        function populatePage() {
+            // При переході на сторінку, зберігаємо попередню сторінку
+            if (document.referrer.includes('../profesors.html')) {
+                sessionStorage.setItem('previousPage', '../profesors.html');
+            } else if (document.referrer.includes('../employees.html')) {
+                sessionStorage.setItem('previousPage', '../employees.html');
+            }
+
+            // Заголовки
+            document.getElementById("page-title").textContent = "Вінниченко Євгеній Федорович";
+
+            // Повернення на попередню сторінку при натисканні на заголовок
+            document.getElementById("page-title").addEventListener("click", function () {
+                var previousPage = sessionStorage.getItem('previousPage');
+
+                if (previousPage) {
+                    window.location.href = previousPage;
+                } else {
+                    // Якщо немає попередньої сторінки, можна встановити значення за замовчуванням
+                    window.location.href = "../profesors.html";  // Наприклад, повернення на "Професора"
+                }
+            });
+
+            // Основна інформація
+            document.getElementById("profile-photo").src = "../img/портрети/Vinnychenko.webp";
+            document.getElementById("person-name").textContent = "Вінниченко Євгеній Федорович";
+            document.getElementById("person-years").textContent = "2015";
+            document.getElementById("person-description").textContent = "Кандидат педагогічних наук, доцент, доцент кафедри, заступник декана факультету.";
+
+            // Біографія
+            document.getElementById("biography-content").innerHTML = `
+            <p>У 1995 році закінчила Чернігівський державний педагогічний інститут імені Т. Г. Шевченка за спеціальністю «Математика та інформатика», отримала диплом ЛР ВЕ №001847 від 20.06.1995 р.</p>
+            <p>У 2007 році захистила кандидатську дисертацію на тему «Розвиток творчих здібностей старшокласників у процесі навчання інформаційних технологій розв’язування математичних задач» за спеціальністю 13.00.02 — «Теорія та методика навчання (інформатика)». Отримала диплом кандидата педагогічних наук ДК №040822 від 10.05.2007 р.</p>
+            <p>У 2015 році присвоєно вчене звання доцента кафедри інформатики і обчислювальної техніки. Атестат доцента 12ДЦ №042599 від 28.04.2015 р.</p>`;
+
+            // Дослідження
+            const researchList = document.getElementById("research-list");
+            ["Розвиток творчих здібностей старшокласників у процесі навчання інформаційних технологій розв'язування математичних задач. 2006",
+                "РОЛЬ І МІСЦЕ ТЕХНОЛОГІЙ ШТУЧНОГО ІНТЕЛЕКТУ В КУРСІ ІНФОРМАТИКИ НЕПРОФІЛЬНИХ СПЕЦІАЛЬНОСТЕЙ ЗАКЛАДУ ВИЩОЇ ОСВІТИ. 2025"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    researchList.appendChild(li);
+                });
+
+            // Публікації
+            const publicationsList = document.getElementById("publications-list");
+            ["Розв'язування олімпіадних задач з математики за допомогою комп'ютера. 2001",
+                "НІТН математики і активізація навчально-пізнавальної діяльності учнів. 2002",
+                "Створення контекстно-залежної системи допомоги для прикладних програм. 2002",
+                "Деякі особливості використання математичних програмних засобів на уроках математики. 2003",
+                "Розв'язування задач на ГМТ з використанням моделюючих програмних засобів. 2003",
+                "Komputerowe wspomoganie nauczania matematyki pakietem programów GRAN. 2004",
+                "Использование пакета GRAN при изучении математики в школе. 2005",
+                "Використання комп'ютерних програм для створення динамічних моделей при вивченні математики. 2006",
+                "Застосування програмних засобів для знаходження ГМТ координатним методом. 2006",
+                "Деякі особливості геометричних перетворень в програмі GRAN-2D. 2007",
+                "Вивчення комп'ютерної графіки та мультимедіа на інформатичних спеціальностях педагогічного вузу. 2008",
+                "Використання комп'ютерних програм для створення динамічних моделей при вивченні математики. 2008",
+                "Проблема вибору суб'єкта побудови комп'ютерних моделей в програмах динамічної геометрії. 2008",
+                "Розв'язування задач з параметрами за допомогою програми GRAN-1. 2008",
+                "Учебный курс Компьютерная графика и мультимедийные технологии в педагогическом ВУЗе. 2008",
+                "КОМПЛЕКСНИЙ ПІДХІД У СУЧАСНІЙ НАУКОВО-ДОСЛІДНІЙ РОБОТІ СТУДЕНТІВ. 2009",
+                "Математика з комп'ютером: посібник для вчителів.—2-ге вид. 2009",
+                "ЗАСТОСУВАННЯ ВІЛЬНОПОШИРЮВАНОГО ПРОГРАМНОГО ЗАБЕЗПЕЧЕННЯ У ПЕДАГОГІЧНИХ ДОСЛІДЖЕННЯХ. 2010",
+                "Використання комп'ютера як фактору мотивації самостійної роботи майбутніх економістів при вивченні вищої математики. 2010",
+                "ВИКОРИСТАННЯ ВІЛЬНОПОШИРЮВАНОГО ПРОГРАМНОГО ЗАБЕЗПЕЧЕННЯ ПРИ ВИВЧЕННІ КОМП'ЮТЕРНОЇ ГРАФІКИ ТА МУЛЬТИМЕДІЙНИХ ТЕХНОЛОГІЙ. 2011",
+                "Відбір вільно поширюваного програмного забезпечення для використання у педагогічному університеті. 2013",
+                "Методика використання вільно поширюваних утиліт. 2013",
+                "Про вивчення вільно-поширюваних офісних пакетів в ЧНПУ імені ТГ Шевченка. 2013",
+                "Про деякі задачі на знаходження геометричних місць точок за їх характеристичною властивістю. 2014",
+                "Інтенсифікація навчання основ алгоритмізації і програмування майбутніх учителів інформатики. 2015",
+                "Математика з комп'ютером. 2015",
+                "Основи комп'ютерної графіки. 2015",
+                "Пам'яті Андрія Вікторовича Пенькова. 2016",
+                "Ідеї фундаменталізації змісту інформатичних дисциплін для підвищення ефективності навчання в педагогічних університетах. 2017",
+                "Застосування тестових систем для здійснення оцінювання майбутніх викладачів. 2018",
+                "Проблеми інформатизації навчального процесу в закладах загальної середньої та вищої освіти. 2018",
+                "Трансформація змісту навчання інформатики на непрофільних спеціальностях. 2018",
+                "Метод проектів в шкільному курсі інформатики. 2019",
+                "IMPACT OF CHANGES IN TEACHING COMPUTER SCIENCE IN UKRAINIAN SCHOOLS ON FORMING THE CONTENT OF COMPUTER SCIENCE COURSES AT NON-CORE SPECIALTIES IN UNIVERSITIES. 2019",
+                "ШТУЧНИЙ ІНТЕЛЕКТ–ВИКЛИКИ ДЛЯ ОСВІТИ І ШЛЯХИ ЇХ ПОДОЛАННЯ. 2023",
+                "ДЕЯКІ ПРОБЛЕМИ ВИКОРИСТАННЯ МАТЕМАТИЧНИХ СИСТЕМ НА СУЧАСНОМУ ЕТАПІ. 2024",
+                "Методичні рекомендації до виконання лабораторних робіт з дисципліни Архітектура комп'ютера та операційні системи. 2024",
+                "Лабораторний практикум з дисципліни Комп'ютерна графіка і мультимедіа. 2025"].forEach((item) => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    publicationsList.appendChild(li);
+                });
+
+            // Джерела
+            const sourcesList = document.getElementById("sources-list");
+            [
+            { text: "chnpu.edu.ua.Кафедра інформатики і обчислювальної техніки. ", url: "http://chnpu.edu.ua/faculties/physandmath-faculty/kafedra-informatiki-i-obchislyuvalnoji-tekhniki" },
+                { text: "Yevheniy Vinnychenko. (n.d.). ORCID profile.", url:"https://orcid.org/0000-0001-8094-1828"},
+                { text: "Google Академія. Vinnychenko Yevhenii.", url: "https://scholar.google.com.ua/citations?user=1potW9oAAAAJ&hl=ru" }
+            ].forEach((item) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = item.text;  // Текст для посилання
+                a.href = item.url;  // URL для гіперпосилання
+                a.target = "_blank"; // Відкривається у новій вкладці
+                li.appendChild(a);  // Додаємо гіперпосилання до елемента списку
+                sourcesList.appendChild(li);  // Додаємо елемент списку до списку на сторінці
+            });
+        }
+
+        // Активувати клікабельність для всіх пунктів меню
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuItems = document.querySelectorAll('nav a');
+            menuItems.forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault(); // Забороняє дефолтний перехід
+                    const targetId = item.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth" }); // Скрол до секції
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
