@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Меню навігації для сайту фізико-математичного факультету Чернігівського колегіуму. Пошук по всіх сторінках і датах.">
+        <meta name="developer" content="Лебідь Олена Олександрівна">
+    <meta name="keywords"
+        content="фізико-математичний факультет, Чернігів, факультет, пошук, декани, співробітники, випускники, фотоархів, документи">
+    <meta name="author" content="Olena Lebid">
+    <link rel="icon" href="img/icons/timeline.png" type="timeline">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="base.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Меню сайту</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,318;1,318&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Підключення шапки профілю, меню та пошукової форми -->
+    <div id="header-container"></div>
+    <div class="container py-4">
+
+        <!-- Кнопки для мобільних пристроїв -->
+        <div class="floating-buttons d-lg-none position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
+            <button class="button-icon menu-toggle" aria-label="Меню" onclick="toggleMenu()">☰</button>
+            <button class="button-icon search-toggle" aria-label="Пошук" onclick="toggleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Пошукова стрічка для великих екранів -->
+        <div class="search-container d-none d-lg-block mb-4">
+            <div class="input-group position-relative">
+                <input type="text" id="desktop-search-input" class="form-control" placeholder="Введіть запит...">
+                <button id="desktop-clear-search" class="clear-input" aria-label="Очистити">✕</button>
+                <button id="desktop-search-button" class="custom-button">Пошук</button>
+            </div>
+            <div id="desktop-search-results" class="mt-3"></div>
+        </div>
+
+        <!-- Оверлей пошуку для мобільних -->
+        <div id="search-overlay" class="search-overlay">
+            <div class="search-box">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Пошук</h5>
+                    <button type="button" class="btn-close" aria-label="Закрити" onclick="closeSearch()"></button>
+                </div>
+                <div class="search-input-wrapper mb-2">
+                    <input type="text" id="mobile-search-input" class="form-control" placeholder="Пошук...">
+                    <button id="mobile-clear-search" class="clear-input" aria-label="Очистити поле пошуку">✕</button>
+                </div>
+                <div id="mobile-search-button" class="btn w-100 mb-2">Шукати</div>
+                <div id="mobile-search-results" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основний контент -->
+    <main class="container py-5">
+        <h2 class="mb-4">Часова шкала</h2>
+        <h3 class="mb-4">Розбудова кафедри математичних дисциплін НУ "Чернігівський колегіум" ім. Т.Г. Шевченка за
+            період 1929-2017 рр.</h3>
+        <div class="text-center">
+            <img src="img/hrono.png" alt="Хронологія" class="img-fluid">
+        </div>
+        <h4 class="note"
+            style="font-size: 76%; color: #3a3a3a; text-align: center; font-style: italic; font-weight: normal; margin: 10px 0;">
+            *Деякі відомості можуть бути неповними або неточними через фрагментарність історичних записів.*</h4>
+    </main>
+
+    <!-- Футер -->
+    <div id="footer-container"></div>
+    <!-- Кнопка "Нагору" -->
+    <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+
+</body>
+<!-- Завантаження меню -->
+<script src="main_script.js" type="text/javascript"></script>
+<script>
+    // Функція для підсвічування активного пункту меню
+    function highlightActiveMenuItem() {
+        // Отримуємо поточний шлях сторінки
+        const currentPath = window.location.pathname;
+        const currentPage = currentPath.split('/').pop() || 'index.html'; // якщо порожній шлях, вважаємо це головною
+
+        console.log("Поточна сторінка:", currentPage); // для діагностики
+
+        // Перебираємо всі пункти меню (як у повному, так і в мобільному меню)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            const href = item.getAttribute('href');
+            console.log("Перевірка пункту меню:", href); // для діагностики
+
+            // Перевіряємо, чи є це посилання активним
+            if (href === currentPage ||
+                currentPage.includes(href) ||
+                (currentPage === "" && href === "index.html")) {
+                // Додаємо клас "active" до відповідного пункту меню
+                item.classList.add('active');
+                console.log("Знайдено активний пункт:", href); // для діагностики
+            }
+        });
+    }
+</script>
+<!-- Підключення Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
+    crossorigin="anonymous"></script>
+
+</html>
