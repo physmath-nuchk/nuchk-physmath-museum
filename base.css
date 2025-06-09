@@ -565,6 +565,9 @@ mark {
     padding-bottom: 0 !important;
   }
 
+  .menu-items-container {
+    display: contents;
+  }
 }
 
 /* Планшети вертикальні */
